@@ -6,13 +6,18 @@
 
 - Mendeley
 
-	- [ ] Creating shareable libraries on Mendeley
+	- [x] Creating shareable libraries on Mendeley
+		- Created a "group" titled 'jr_rr_2019_shared_library'
 
-	- [ ] Establishing a workflow for building a bibliography
+	- [x] Establishing a workflow for building a bibliography
+		- Potential workflow:
+			1. Find article
+			2. Drag into 'to-review' folder
+			3. Once reviewed, can move it to the root of the group
 
 - Neo4j [ ]
 
-	- [ ] Download Neo4j CE
+	- [x] Download Neo4j CE
 
 	- [ ] Try to get disgenet in neo4j (or maybe just gene associations for one gene if size is a constraint
 
@@ -20,4 +25,4 @@
 
 	- [ ] Proof of Concept for getting stuff in Neo4j (local instance for now
 
-- [ ] Find and keep O'Reilly Graph Database book as a resource
+- [x] Find and keep O'Reilly Graph Database book as a resource
