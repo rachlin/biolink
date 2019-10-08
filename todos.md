@@ -1,5 +1,22 @@
 # Task tracking
 
+### 10/8 - 10/16
+
+- [ ] See if I can manually create a neo4j instance(s) (via a script following a pattern specified in the email I received)
+	- query for each model that shows why its better
+	- overlapping genes for different diseases
+
+	- [ ] A system for importing CSVs into Neo4j via a config file
+		- we would provide different graph db configs and see which ones look better
+
+- [ ] Understand correlation between evidence level and evidence index
+	- find if any are high evidence level but low evidence index
+	- scatterplot
+
+- [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
+
+
+
 ### 10/1 - 10/7
 
 - [x] Data familiarity - become more familiar with the attributes of the data
@@ -29,16 +46,13 @@
 
 - [ ] Settle upon a schema for Neo4j, that's intuitive but allows for multi-modality
 
+	- Revisit once we build a tool for coming up with different configs
+
 - [ ] Github 
 
 	- [x] - Actively make the repo a working document of our research
 
 		- made `process.md`
-
-- [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
-
-
-- [ ] Neo4j - Look into CSV loading integration tools - way to refer to csv to create nodes and relations from CSVs
 
 ### 9/24 - 9/30
 
