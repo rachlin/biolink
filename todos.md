@@ -2,7 +2,7 @@
 
 ### 10/1 - 10/7
 
-- [ ] Data familiarity - become more familiar with the attributes of the data
+- [x] Data familiarity - become more familiar with the attributes of the data
 
 	- Some insightful queries:
 
@@ -25,13 +25,15 @@
 		order by count(*) desc;
 		```
 
+	- data described in `process.md`
+
 - [ ] Settle upon a schema for Neo4j, that's intuitive but allows for multi-modality
 
 - [ ] Github 
 
-	- [ ] - Actively make the repo a working document of our research
+	- [x] - Actively make the repo a working document of our research
 
-	- [ ]- revisiting this for next week
+		- made `process.md`
 
 - [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
 
