@@ -2,18 +2,18 @@
 
 ### 10/8 - 10/16
 
-- [ ] See if I can manually create a neo4j instance(s) (via a script following a pattern specified in the email I received)
-	- query for each model that shows why its better
-	- overlapping genes for different diseases
-
-	- [ ] A system for importing CSVs into Neo4j via a config file
+- [x] See if I can manually create a neo4j instance(s) (via a script following a pattern specified in the email I received)
+	- Next step: 
+		- query for each model that shows why its better
+		- overlapping genes for different diseases
+		- [ ] A system for importing CSVs into Neo4j via a config file
 		- we would provide different graph db configs and see which ones look better
 
 - [ ] Understand correlation between evidence level and evidence index
 	- find if any are high evidence level but low evidence index
 	- scatterplot
 
-- [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
+- [ ] Optional - Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
 
 
 

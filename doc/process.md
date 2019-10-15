@@ -89,3 +89,16 @@ Mapping the gene disease associations and metadata about those associations
 - EL - evidence level - measures the strength of evidence of a gene-disease relationship that correlates to a qualitative classification: "Definitive", "Strong"(High Evidence), "Moderate", "Limited" (Low Evidence), "Conflicting Evidence", or "No Reported Evidence"
 - EI - evidence index - indicates the existence of contradictory results in publications supporting the associations. "1" -> all publications support association, "<1" -> there are some publications that assert there is no association. No EI value means the index hasn't been computed.
 - year - most likely assumed to be the first time the association was reported
+
+
+## 10/8 - 10/15 - Further Data Exploration, SQLite, Scripts, Neo4j
+
+Now that we have a better idea of what data is in Disgenet, and what the attribbutes for each table actually mean, we had a couple things we wanted to explore.
+
+### Gene Disease Association - Evidence Level and Evidence Index
+
+The evidence index reflects the number of published results that refute an association (EI = 1 means no evidence exists that contradicts it). The evidence level reflects the strength of evidence behind an association.
+
+Having an EI of 1 for an association means much less if there's very limited evidence supporting it, especially compared to an association with the same EI with strong evidence. 
+
+We wanted to explore this and see the distribution of the associations in Disgenet, comparing EL and EI. We plot the correlation in inquiry1.
