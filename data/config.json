@@ -5,18 +5,25 @@
             "NodeType" : "Gene",
             "DataSource" : {
                 "Location" : "./sources/disgenet_2018.db",
-                "TableName" : "geneAttributes",
-                "Columns" : ["geneId", "geneName"]
+                "QueryFile" : "./sql/export_gene.sql"
             }
         },
         {
             "NodeType" : "Disease",
             "DataSource" : {
                 "Location" : "./sources/disgenet_2018.db",
-                "TableName" : "diseaseAttributes",
-                "Columns" : ["diseaseId", "diseaseName", "type"]
+                "QueryFile" : "./sql/export_disease.sql"
             }
         }
     ],
-    "Edges" : []
+    "Edges" : [
+        {
+            "EdgeType" : "AssociatedWith",
+            "FromNodeType" : "Gene",
+            "FromNodeTypeId" : "geneId",
+            "ToNodeType" : "Disease",
+            "ToNodeTypeId" : "diseaseId",
+            "Attributes" : ["association", "associationType", "score"]
+        }
+    ]
 }
