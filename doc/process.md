@@ -29,7 +29,7 @@ Reading their documentation, it's clear that they've taken great care when pulli
 
 #### `diseaseAttributes`
 - diseaseNID - Disgenet's own internal gene identifier
-- diseaseId - NCBI Entrezgene identifier (When pulling from other data sources, Disgenet converts those that use "HGNC symbols and Uniport accession numbers" (other ways of identifying genes) to their appropriate NCBI Entrezgene identifiers. It's clear they're looking at a wide net of data.)
+- diseaseId - UMLS CUIs
 - diseaseName - from the [UMLS Metathesaurus](https://www.nlm.nih.gov/research/umls/)
 - type - phenotype, group, disease
     - disease: An entry that maps to following semantic types:

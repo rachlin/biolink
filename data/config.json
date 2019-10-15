@@ -1,0 +1,22 @@
+{
+    "ModelName" : "A",
+    "Nodes" : [
+        {
+            "NodeType" : "Gene",
+            "DataSource" : {
+                "Location" : "./sources/disgenet_2018.db",
+                "TableName" : "geneAttributes",
+                "Columns" : ["geneId", "geneName"]
+            }
+        },
+        {
+            "NodeType" : "Disease",
+            "DataSource" : {
+                "Location" : "./sources/disgenet_2018.db",
+                "TableName" : "diseaseAttributes",
+                "Columns" : ["diseaseId", "diseaseName", "type"]
+            }
+        }
+    ],
+    "Edges" : []
+}
