@@ -25,7 +25,7 @@
 
 - [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
 
-### 10/8 - 10/16
+### 10/8 - 10/15
 
 - [x] See if I can manually create a neo4j instance(s) (via a script following a pattern specified in the email I received)
 	- Next step: 
