@@ -1,20 +1,44 @@
 # Task tracking
 
+### 10/15 - 10/22
+- [ ] - Show plot of EL vs. EI
+
+- [ ] - Learn about stored procedures in Neo4j/Cypher
+	
+	- Function that takes a disease and generates a subgraph (genes associated with it)
+	- bipartite graph
+
+- [ ] Pick and proceed with one of the following options:
+	- [ ] - Interactive tools for exploring relations between genes and diseaes
+		- For gene g:
+			- list (should be clickable) of diseases involved
+			- list of pathways involved in
+		- Find similar genes based on disease overlap
+		- Look into CLI now, and maybe UI for generaing tables in the future
+
+	- [ ] - Integrating GO data
+
+- [ ] A system for importing CSVs into Neo4j via a config file
+	- we would provide different graph db configs and see which ones look better
+
+- [ ] - Begin writing paper - Abstract
+
+- [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
+
 ### 10/8 - 10/16
 
 - [x] See if I can manually create a neo4j instance(s) (via a script following a pattern specified in the email I received)
 	- Next step: 
 		- query for each model that shows why its better
 		- overlapping genes for different diseases
-		- [ ] A system for importing CSVs into Neo4j via a config file
+		- A system for importing CSVs into Neo4j via a config file
 		- we would provide different graph db configs and see which ones look better
+		- Delivered - create_db.sh, export sql to csv scripts, cypher query to create nodes and relations in database
 
-- [ ] Understand correlation between evidence level and evidence index
+- [x] Understand correlation between evidence level and evidence index
 	- find if any are high evidence level but low evidence index
 	- scatterplot
-
-- [ ] Optional - Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
-
+	- Will show next week
 
 
 ### 10/1 - 10/7
