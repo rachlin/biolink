@@ -3,16 +3,18 @@
     "Nodes" : [
         {
             "NodeType" : "Gene",
+            "Properties" : ["geneId", "geneName", "genePLI", "geneDSI", "geneDPI"],
             "DataSource" : {
-                "Location" : "./sources/disgenet_2018.db",
-                "QueryFile" : "./sql/export_gene.sql"
+                "DatabaseFile" : "disgenet_2018.db",
+                "QueryFile" : "export_gene.sql"
             }
         },
         {
             "NodeType" : "Disease",
+            "Properties" : ["diseaseId", "diseaseName", "diseaseType"],
             "DataSource" : {
-                "Location" : "./sources/disgenet_2018.db",
-                "QueryFile" : "./sql/export_disease.sql"
+                "DatabaseFile" : "disgenet_2018.db",
+                "QueryFile" : "export_disease.sql"
             }
         }
     ],
@@ -23,7 +25,7 @@
             "FromNodeTypeId" : "geneId",
             "ToNodeType" : "Disease",
             "ToNodeTypeId" : "diseaseId",
-            "Attributes" : ["association", "associationType", "score"]
+            "Properties" : ["association", "associationType", "score"]
         }
     ]
 }
