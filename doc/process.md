@@ -112,7 +112,11 @@ We wanted to explore this and see the distribution of the associations in Disgen
         'disputed': 5
     }
 
-Looking at the figure ![](./Correlation_ELvEI.png), we can see that there are associations at all levels where there is no reported evidence for the association, but an EI has been calculated. We likely aren't too concerned with these associations. Looking at the majority of the remaining associations, we can see the associations with 'Strong Evidence' or 'Definitive Evidence' tend to have lower EIs, but we do see some outliers here. Perhaps then, these associations with strong evidence are simply those that have been studied more heavily, and as a result just happen to have more studies that refute them, pushing EI down. 
+Looking at the figure,
+
+ ![](./inquiry1/Correlation_ELvEI.png) 
+ 
+ we can see that there are associations at all levels where there is no reported evidence for the association, but an EI has been calculated. We likely aren't too concerned with these associations. Looking at the majority of the remaining associations, we can see the associations with 'Strong Evidence' or 'Definitive Evidence' tend to have lower EIs, but we do see some outliers here. Perhaps then, these associations with strong evidence are simply those that have been studied more heavily, and as a result just happen to have more studies that refute them, pushing EI down. 
 
 Does score of the association directly correlate to EI? Or EL? These remain to be explored.
 
