@@ -1,5 +1,30 @@
 # Task tracking
 
+### 10/22 - 10/29
+
+- [ ] - Exploring the data:
+	
+	- For each association (with either Asthma or Diabetes), get EL , EI, score, num of publibcations, (also number of publications with contradictory results)
+	- genes are rows, columns will be values for either gene
+	- come up 
+
+- [ ] - Integrate (the correct version of) Gene Ontology Annotations [the one with genes]
+
+- [ ] - Interactive tools for exploring relations between genes and diseaes
+	- For gene g:
+		- list (should be clickable) of diseases involved
+		- list of pathways involved in
+	- Find similar genes based on disease overlap
+	- Look into CLI now, and maybe UI for generaing tables in the future
+
+- [ ] - If time permits, work more on paper:
+
+	- [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
+
+- [ ] - Process documentation
+
+
+
 ### 10/15 - 10/22
 - [x] - Show plot of EL vs. EI
 
@@ -22,6 +47,8 @@
 
 	- [ ] - Integrating GO data
 
+	- Revisiting next week
+
 - [ ] A system for importing CSVs into Neo4j via a config file
 	- we would provide different graph db configs and see which ones look better
 
@@ -29,7 +56,6 @@
 
 	- see [here](./doc/paper.md)
 
-- [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
 
 ### 10/8 - 10/15
 
