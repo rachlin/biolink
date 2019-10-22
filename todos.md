@@ -5,10 +5,12 @@
 
 	- See [here](./doc/process.md#gene-disease-association---evidence-level-and-evidence-index)
 
-- [ ] - Learn about stored procedures in Neo4j/Cypher
+- [x] - Learn about stored procedures in Neo4j/Cypher
 	
 	- Function that takes a disease and generates a subgraph (genes associated with it)
 	- bipartite graph
+
+	- Done: See [here](./app/test.py) and [here](./app/proc.py)
 
 - [ ] Pick and proceed with one of the following options:
 	- [ ] - Interactive tools for exploring relations between genes and diseaes

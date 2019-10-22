@@ -179,8 +179,20 @@ Let's consider the diseases in our graph, but only the disease that are associat
 `match (d:Disease) where size((d)<-[:AssociatesWith]-(:Gene)) > 2 with collect(d) as diseases match (d1:Disease)<-[b:AssociatesWith]-(g:Gene)-[a:AssociatesWith]->(asthma:Disease {diseaseName : "Asthma"}) where d1 in diseases return d1, g, asthma;`
 
 This query may also break the browser. Here we can use the intuition that the association score should be decent, let's say 0.5. Our query then becomes:
-`match (d:Disease) where size((d)<-[:AssociatesWith]-(:Gene)) > 2 with collect(d) as diseases match (d1:Disease)<-[b:AssociatesWith]-(g:Gene)-[a:AssociatesWith]->(asthma:Disease {diseaseName : "Asthma"}) where d1 in diseases and b.score > 0.5 and a.score > 0.5 return d1, g, asthma;`, which gives us:
+`match (d:Disease) where size((d)<-[:AssociatesWith]-(:Gene)) > 2 with collect(d) as diseases match (d1:Disease)<-[b:AssociatesWith]-(g:Gene)-[a:AssociatesWith]->(target:Disease {diseaseName : "Asthma"}) where d1 in diseases and b.score > 0.5 and a.score > 0.5 return d1, g, target;`, which gives us:
 
 ![](./inquiry2/graph.png)
 
 This looks promising. Sure, the numbers we picked for association score, and number of associations is all arbitrary, but we can change those. We can make this more generic, so we need not look only at Asthma, but run this query against for all diseases. By maing this a stored procedure or something that we can call programattically, we'll ensure that we can run this query dynamically.
+
+See [here](../app/test.py) and [here](../app/proc.py)
+
+#### What genes are similar to IL4?
+
+We can flip our above query: 
+`match (g:Gene) where size((g)-[:AssociatesWith]->(:Disease)) > 2 with collect(g) as genes match (g1:Gene)-[b:AssociatesWith]->(d:Disease)<-[a:AssociatesWith]-(target:Gene {geneName : "IL4"}) where g1 in genes and b.score > 0.5 and a.score > 0.5 return g1, d, target;`
+
+We selected IL4 because it was a gene that appeared in the results of the previous query. Again, we've extracted this query into a generic procedure we can call in Python.
+
+See [here](../app/test.py) and [here](../app/proc.py)
+
