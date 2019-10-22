@@ -1,12 +1,16 @@
 # Task tracking
 
 ### 10/15 - 10/22
-- [ ] - Show plot of EL vs. EI
+- [x] - Show plot of EL vs. EI
 
-- [ ] - Learn about stored procedures in Neo4j/Cypher
+	- See [here](./doc/process.md#gene-disease-association---evidence-level-and-evidence-index)
+
+- [x] - Learn about stored procedures in Neo4j/Cypher
 	
 	- Function that takes a disease and generates a subgraph (genes associated with it)
 	- bipartite graph
+
+	- Done: See [here](./app/test.py) and [here](./app/proc.py)
 
 - [ ] Pick and proceed with one of the following options:
 	- [ ] - Interactive tools for exploring relations between genes and diseaes
@@ -21,7 +25,9 @@
 - [ ] A system for importing CSVs into Neo4j via a config file
 	- we would provide different graph db configs and see which ones look better
 
-- [ ] - Begin writing paper - Abstract
+- [x] - Begin writing paper - Abstract
+
+	- see [here](./doc/paper.md)
 
 - [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
 
