@@ -234,9 +234,15 @@ We could also extend this to get more high level information and group by diseas
     where diseaseName == "Asthma" or diseaseName like "%diabetes%"
 	group by geneId, diseaseId, score;
 
+
 #### Plotting EI vs Score
 
 Need to revisit this.
+
+
+Score is ambiguous until now - "The score ranges from 0 to 1 and is computed according to the formula described in ‘Methods’ section. The DisGeNET score allows obtaining a ranking of GDAs and a straightforward classification of curated vs predicted vs literature-based associations since it stratifies the associations based on their level of evidence."
+
+Evidence Index is calculated only using associations appearing in sources BeFree and PsyGeNET - "The "Evidence index" (EI) indicates the existence of contradictory results in publications supporting the gene/variant-disease associations. This index is computed for the sources BeFree and PsyGeNET, by identifying the publications reporting a negative finding on a particular VDA or GDA. Note that only in the case of PsyGeNET, the information used to compute the EI has been validated by experts. "
 
 ### Integrate GO Annotations
 
