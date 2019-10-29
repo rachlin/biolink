@@ -249,3 +249,20 @@ Evidence Index is calculated only using associations appearing in sources BeFree
 Now that we seem to have a simple schema for our graph database in Neo4j, we want to add another dataset, GO Annotations for gene functions. The bipartite graph we want to generate would now be extended as well. To find similar genes to a target gene, we would look at the children of that gene, i.e. the annotations the gene is involved in and the diseases it is associated with, and for those annotations and diseases, find genes that share those annotations/associations. We would do a similar workflow for diseases and annotations. This means we would have to change our stored procedure for producing the bipartite graph to become more generic to allow for future extensions.
 
 The immediate benefit of adding GO Annotations - Are genes that are similar in function also similar by association? Or, are genes that are involved in certain functions also associated with the same set of diseases?
+
+We add to our `setup.sh` the functionality to pull the human GO Annotations and unzip it.
+
+Since the GAF file is a file of associations, we need to add a new node type to our database first - GO terms. Then the association will become a relationship between gene and GO term. Some things to consider:
+
+    - GO Annotations:
+        - "A GO annotation is a statement about the function of a particular gene. GO annotations are created by associating a gene or gene product with a GO term." from http://geneontology.org/docs/go-annotations/
+        - From http://geneontology.org/docs/go-annotation-file-gaf-format-2.1/ ;
+            - DB, DB Object ID, and DB Object Symbol all refer to the gene itself
+            - GO ID - The ID for the GO Term it is associated with
+            - Each annotation includes an evidence code to indicate how the annotation to a particular term is supported.
+            - The Qualifier indicates that the gene is NOT related to, Contributes to, or Collocalizes with - Ideally we'll want to ignore the entries with NOT.
+
+    - GO Terms:
+        - Ideally what we want to do is add GO properly to our graph database. Since the GO is loosely hierarchical, and very much a graph in structure - we need a good way to programmatically add GOs along with GO-GO relationships - this is tough because we will need to handle obsolete GO terms. We will pull them from here: http://current.geneontology.org/ontology/go-basic.obo . For the time being we add GO terms as empty nodes, ignoring any relationships that a GO tag may have with other GO terms. Many genes may have the same GO, and so it's not a blocker for the simplest queries we'd like to ask. But for the time being, if gene A has GO term G1, and gene B has GO term G2, and G2 is a parent of G1, we wouldn't be able to make an insight about the similarity between gene A and B just yet.
+
+        
