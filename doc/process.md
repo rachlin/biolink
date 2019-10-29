@@ -183,7 +183,7 @@ This query may also break the browser. Here we can use the intuition that the as
 
 ![](./inquiry2/graph.png)
 
-This looks promising. Sure, the numbers we picked for association score, and number of associations is all arbitrary, but we can change those. We can make this more generic, so we need not look only at Asthma, but run this query against for all diseases. By maing this a stored procedure or something that we can call programattically, we'll ensure that we can run this query dynamically.
+This looks promising. Sure, the numbers we picked for association score, and number of associations is all arbitrary, but we can change those. We can make this more generic, so we need not look only at Asthma, but run this query against for all diseases. By making this a stored procedure or something that we can call programattically, we'll ensure that we can run this query dynamically.
 
 See [here](../app/test.py) and [here](../app/proc.py)
 
@@ -265,4 +265,3 @@ Since the GAF file is a file of associations, we need to add a new node type to 
     - GO Terms:
         - Ideally what we want to do is add GO properly to our graph database. Since the GO is loosely hierarchical, and very much a graph in structure - we need a good way to programmatically add GOs along with GO-GO relationships - this is tough because we will need to handle obsolete GO terms. We will pull them from here: http://current.geneontology.org/ontology/go-basic.obo . For the time being we add GO terms as empty nodes, ignoring any relationships that a GO tag may have with other GO terms. Many genes may have the same GO, and so it's not a blocker for the simplest queries we'd like to ask. But for the time being, if gene A has GO term G1, and gene B has GO term G2, and G2 is a parent of G1, we wouldn't be able to make an insight about the similarity between gene A and B just yet.
 
-        

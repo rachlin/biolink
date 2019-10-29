@@ -2,3 +2,4 @@ neo4j
 numpy
 matplotlib
 pprint
+networkx

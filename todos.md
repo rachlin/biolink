@@ -1,4 +1,22 @@
 # Task tracking
+### 10/29 - 11/5
+- Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
+	- Easier way to get GO Annotations
+	 Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
+
+- [ ] - Interactive tools for exploring relations between genes and diseaes - this is a priority
+	- For gene g:
+		- list (should be clickable) of diseases involved
+		- list of pathways involved in
+	- Find similar genes based on disease overlap
+	- Look into CLI now, and maybe UI for generaing tables in the future
+
+- [ ] - Think about website architecture
+
+- [ ] - Process documentation
+
+- [ ] - GO Annotations - continue to explore
+
 
 ### 10/22 - 10/29
 
