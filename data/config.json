@@ -16,6 +16,14 @@
                 "DatabaseFile" : "disgenet_2018.db",
                 "QueryFile" : "export_disease.sql"
             }
+        },
+        {
+            "NodeType" : "Function",
+            "Properties" : ["diseaseId", "diseaseName", "diseaseType"],
+            "DataSource" : {
+                "DatabaseFile" : "goa_human.gaf",
+                "QueryFile" : ""
+            }
         }
     ],
     "Edges" : [

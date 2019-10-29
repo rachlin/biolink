@@ -144,7 +144,7 @@ Now we know what properties matter to us, we export SQL data for Gene, Disease, 
 At a later time, we might want look into building a tool to create different models of the data dynamically, further abstracting developers from the SQL->CSV->Neo4J conversion process.
 
 
-## 10/15 - 10/23 - A Bipartite Graph
+## 10/15 - 10/22 - A Bipartite Graph
 
 With a model in Neo4j, we begin by looking at the associations between genes and diseases. The Neo4j browser makes it quick and easy to explore on the nodes in the graph looking. 
 
@@ -183,7 +183,7 @@ This query may also break the browser. Here we can use the intuition that the as
 
 ![](./inquiry2/graph.png)
 
-This looks promising. Sure, the numbers we picked for association score, and number of associations is all arbitrary, but we can change those. We can make this more generic, so we need not look only at Asthma, but run this query against for all diseases. By maing this a stored procedure or something that we can call programattically, we'll ensure that we can run this query dynamically.
+This looks promising. Sure, the numbers we picked for association score, and number of associations is all arbitrary, but we can change those. We can make this more generic, so we need not look only at Asthma, but run this query against for all diseases. By making this a stored procedure or something that we can call programattically, we'll ensure that we can run this query dynamically.
 
 See [here](../app/test.py) and [here](../app/proc.py)
 
@@ -195,4 +195,73 @@ We can flip our above query:
 We selected IL4 because it was a gene that appeared in the results of the previous query. Again, we've extracted this query into a generic procedure we can call in Python.
 
 See [here](../app/test.py) and [here](../app/proc.py)
+
+
+## 10/22 - 10/29 - Asking more Questions
+
+Continuing from where we left off last week, we realized that our EL vs EI plot may not be the exact plot we want. Instead, we may want to do something where we compare association score and EI, and ask other questions as well.
+
+### Gene - Association Details for Asthma and Diabetes side by side
+
+#### What we want to ask:
+
+For each association (with either Asthma or Diabetes), get EL , EI, score, num of publibcations, (also number of publications with contradictory results). Ideally the genes are rows, columns will be values for either gene.
+
+#### First Steps - Genes associated with asthma
+
+    select * from geneAttributes
+    left join geneDiseaseNetwork using (geneNID)
+    left join diseaseAttributes using (diseaseNID)
+    where diseaseName == "Asthma";
+    
+We first explore this to get an idea of how to formualate our goal as a query. One thing we notice immediately from the results is NAT2 appearing multiple times (under different pubmed ids,, different years, but the same scores). Perhaps the score is calculated against the evidence that existed at the time of each publication, or perhaps it is updated every time a new publication with the association is added.
+
+#### Genes associated with both Asthma and Diabetes
+
+Ideally we would like to construct a table such that each gene appears on a row, with columns dedicated for each EL, EL, score for each disease. But this can vary depending on what gene we consider. Instead, we can place a row for each gene-disease association, for each article that makes the association.
+
+    select geneId, geneName, diseaseId, diseaseName, pmid, el, ei, score, year from geneDiseaseNetwork
+    left join geneAttributes using (geneNID)
+    left join diseaseAttributes using (diseaseNID)
+    where diseaseName == "Asthma" or diseaseName like "%diabetes%"
+	order by geneId, diseaseId, score;
+
+We could also extend this to get more high level information and group by diseases, so we get one entry per disease.
+
+    select geneId, geneName, diseaseId, diseaseName, pmid, el, ei, score, year from geneDiseaseNetwork
+    left join geneAttributes using (geneNID)
+    left join diseaseAttributes using (diseaseNID)
+    where diseaseName == "Asthma" or diseaseName like "%diabetes%"
+	group by geneId, diseaseId, score;
+
+
+#### Plotting EI vs Score
+
+Need to revisit this.
+
+
+Score is ambiguous until now - "The score ranges from 0 to 1 and is computed according to the formula described in ‘Methods’ section. The DisGeNET score allows obtaining a ranking of GDAs and a straightforward classification of curated vs predicted vs literature-based associations since it stratifies the associations based on their level of evidence."
+
+Evidence Index is calculated only using associations appearing in sources BeFree and PsyGeNET - "The "Evidence index" (EI) indicates the existence of contradictory results in publications supporting the gene/variant-disease associations. This index is computed for the sources BeFree and PsyGeNET, by identifying the publications reporting a negative finding on a particular VDA or GDA. Note that only in the case of PsyGeNET, the information used to compute the EI has been validated by experts. "
+
+### Integrate GO Annotations
+
+Now that we seem to have a simple schema for our graph database in Neo4j, we want to add another dataset, GO Annotations for gene functions. The bipartite graph we want to generate would now be extended as well. To find similar genes to a target gene, we would look at the children of that gene, i.e. the annotations the gene is involved in and the diseases it is associated with, and for those annotations and diseases, find genes that share those annotations/associations. We would do a similar workflow for diseases and annotations. This means we would have to change our stored procedure for producing the bipartite graph to become more generic to allow for future extensions.
+
+The immediate benefit of adding GO Annotations - Are genes that are similar in function also similar by association? Or, are genes that are involved in certain functions also associated with the same set of diseases?
+
+We add to our `setup.sh` the functionality to pull the human GO Annotations and unzip it.
+
+Since the GAF file is a file of associations, we need to add a new node type to our database first - GO terms. Then the association will become a relationship between gene and GO term. Some things to consider:
+
+    - GO Annotations:
+        - "A GO annotation is a statement about the function of a particular gene. GO annotations are created by associating a gene or gene product with a GO term." from http://geneontology.org/docs/go-annotations/
+        - From http://geneontology.org/docs/go-annotation-file-gaf-format-2.1/ ;
+            - DB, DB Object ID, and DB Object Symbol all refer to the gene itself
+            - GO ID - The ID for the GO Term it is associated with
+            - Each annotation includes an evidence code to indicate how the annotation to a particular term is supported.
+            - The Qualifier indicates that the gene is NOT related to, Contributes to, or Collocalizes with - Ideally we'll want to ignore the entries with NOT.
+
+    - GO Terms:
+        - Ideally what we want to do is add GO properly to our graph database. Since the GO is loosely hierarchical, and very much a graph in structure - we need a good way to programmatically add GOs along with GO-GO relationships - this is tough because we will need to handle obsolete GO terms. We will pull them from here: http://current.geneontology.org/ontology/go-basic.obo . For the time being we add GO terms as empty nodes, ignoring any relationships that a GO tag may have with other GO terms. Many genes may have the same GO, and so it's not a blocker for the simplest queries we'd like to ask. But for the time being, if gene A has GO term G1, and gene B has GO term G2, and G2 is a parent of G1, we wouldn't be able to make an insight about the similarity between gene A and B just yet.
 

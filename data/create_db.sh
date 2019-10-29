@@ -10,6 +10,10 @@ sqlite3 -header -csv "sources/disgenet_2018.db" < "sql/export_gene.sql" > "csv/g
 sqlite3 -header -csv "sources/disgenet_2018.db" < "sql/export_disease.sql" > "csv/disease.csv"
 sqlite3 -header -csv "sources/disgenet_2018.db" < "sql/export_association.sql" > "csv/association.csv"
 
+# Runs the python script in data/py to convert the GAF file format to CSV and get GO terms only
+python py/export_go.py "sources/goa_human.gaf" "csv/go.csv"
+# Runs the python script in data/py to convert the GAF file format to CSV
+python py/export_goa.py  "sources/goa_human.gaf" "csv/goa.csv"
 
 ## Run a cypher query to create the Nodes and Relations in the Neo4J instance
 ## By default, Neo4j prevents using LOAD CSV (which is in our cypher query and helps read from CSV files) from

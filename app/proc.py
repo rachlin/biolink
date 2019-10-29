@@ -19,6 +19,33 @@ class BipartiteProcedure(object):
             genes = session.write_transaction(self._get_common_genes, gene_name, acceptable_association_score, num_diseases)
             pprint.pprint(genes)
 
+    def vis_diseases(self, disease_name, acceptable_association_score, num_genes):
+        import matplotlib.pyplot as plt
+        import networkx as nx
+        import networkx.algorithms.bipartite as bp
+
+        with self._driver.session() as session:
+            results = session.write_transaction(self._get_common_diseases, disease_name, acceptable_association_score, num_genes)
+            diseases = []
+            genes = []
+            edges = []
+            for result in results:
+                diseases.append(result["d1"])
+                genes.append(result["g"])
+                edges.append([result["d1"], result["g"]])
+
+            G=nx.Graph()
+            G.add_nodes_from(diseases, bipartite=0)
+            G.add_nodes_from(genes, bipartite=1)
+            G.add_edges_from(edges)
+            # from https://stackoverflow.com/questions/27084004/bipartite-graph-in-networkx
+            pos = dict()
+            pos.update( (n, (1, i)) for i, n in enumerate(diseases) ) # put nodes from X at x=1
+            pos.update( (n, (2, i)) for i, n in enumerate(genes) ) # put nodes from Y at x=2
+            nx.draw(G, pos=pos)
+            plt.show()
+
+
 
     @staticmethod
     def _get_common_diseases(tx, disease_name, acceptable_association_score, num_genes):

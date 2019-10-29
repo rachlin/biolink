@@ -17,4 +17,3 @@ MATCH (gene:Gene {geneId: row.geneId})
 MATCH (disease:Disease {diseaseId: row.diseaseId})
 MERGE (gene)-[a:AssociatesWith]->(disease)
 ON CREATE SET a.score = toFloat(row.score);
-
