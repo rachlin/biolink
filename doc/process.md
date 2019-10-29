@@ -144,7 +144,7 @@ Now we know what properties matter to us, we export SQL data for Gene, Disease, 
 At a later time, we might want look into building a tool to create different models of the data dynamically, further abstracting developers from the SQL->CSV->Neo4J conversion process.
 
 
-## 10/15 - 10/23 - A Bipartite Graph
+## 10/15 - 10/22 - A Bipartite Graph
 
 With a model in Neo4j, we begin by looking at the associations between genes and diseases. The Neo4j browser makes it quick and easy to explore on the nodes in the graph looking. 
 
@@ -196,3 +196,50 @@ We selected IL4 because it was a gene that appeared in the results of the previo
 
 See [here](../app/test.py) and [here](../app/proc.py)
 
+
+## 10/22 - 10/29 - Asking more Questions
+
+Continuing from where we left off last week, we realized that our EL vs EI plot may not be the exact plot we want. Instead, we may want to do something where we compare association score and EI, and ask other questions as well.
+
+### Gene - Association Details for Asthma and Diabetes side by side
+
+#### What we want to ask:
+
+For each association (with either Asthma or Diabetes), get EL , EI, score, num of publibcations, (also number of publications with contradictory results). Ideally the genes are rows, columns will be values for either gene.
+
+#### First Steps - Genes associated with asthma
+
+    select * from geneAttributes
+    left join geneDiseaseNetwork using (geneNID)
+    left join diseaseAttributes using (diseaseNID)
+    where diseaseName == "Asthma";
+    
+We first explore this to get an idea of how to formualate our goal as a query. One thing we notice immediately from the results is NAT2 appearing multiple times (under different pubmed ids,, different years, but the same scores). Perhaps the score is calculated against the evidence that existed at the time of each publication, or perhaps it is updated every time a new publication with the association is added.
+
+#### Genes associated with both Asthma and Diabetes
+
+Ideally we would like to construct a table such that each gene appears on a row, with columns dedicated for each EL, EL, score for each disease. But this can vary depending on what gene we consider. Instead, we can place a row for each gene-disease association, for each article that makes the association.
+
+    select geneId, geneName, diseaseId, diseaseName, pmid, el, ei, score, year from geneDiseaseNetwork
+    left join geneAttributes using (geneNID)
+    left join diseaseAttributes using (diseaseNID)
+    where diseaseName == "Asthma" or diseaseName like "%diabetes%"
+	order by geneId, diseaseId, score;
+
+We could also extend this to get more high level information and group by diseases, so we get one entry per disease.
+
+    select geneId, geneName, diseaseId, diseaseName, pmid, el, ei, score, year from geneDiseaseNetwork
+    left join geneAttributes using (geneNID)
+    left join diseaseAttributes using (diseaseNID)
+    where diseaseName == "Asthma" or diseaseName like "%diabetes%"
+	group by geneId, diseaseId, score;
+
+#### Plotting EI vs Score
+
+Need to revisit this.
+
+### Integrate GO Annotations
+
+Now that we seem to have a simple schema for our graph database in Neo4j, we want to add another dataset, GO Annotations for gene functions. The bipartite graph we want to generate would now be extended as well. To find similar genes to a target gene, we would look at the children of that gene, i.e. the annotations the gene is involved in and the diseases it is associated with, and for those annotations and diseases, find genes that share those annotations/associations. We would do a similar workflow for diseases and annotations. This means we would have to change our stored procedure for producing the bipartite graph to become more generic to allow for future extensions.
+
+The immediate benefit of adding GO Annotations - Are genes that are similar in function also similar by association? Or, are genes that are involved in certain functions also associated with the same set of diseases?
