@@ -2,13 +2,17 @@
 
 ### 10/22 - 10/29
 
-- [ ] - Exploring the data:
+- [x] - Exploring the data:
 	
 	- For each association (with either Asthma or Diabetes), get EL , EI, score, num of publibcations, (also number of publications with contradictory results)
 	- genes are rows, columns will be values for either gene
 	- come up 
 
-- [ ] - Integrate (the correct version of) Gene Ontology Annotations [the one with genes]
+	- Done (in part) - can view the details for each gene/disease association pai by pubmed id - REVISIT for next week
+
+- [x] - Integrate (the correct version of) Gene Ontology Annotations [the one with genes]
+
+	- Done (in part) - Added GO Annotations, need to plan way to add Add GO terms in a hierarchical way. Also need to figure out how to filter annotations not pertaining to genes (there are many focused on gene products or associations) - REVISIT for next week
 
 - [ ] - Interactive tools for exploring relations between genes and diseaes
 	- For gene g:
@@ -17,11 +21,15 @@
 	- Find similar genes based on disease overlap
 	- Look into CLI now, and maybe UI for generaing tables in the future
 
+	- REVISIT for next week
+
 - [ ] - If time permits, work more on paper:
 
 	- [ ] Mendeley - Look for sources (at least 3) - integrating biological data and visuzalizing it as graph
 
-- [ ] - Process documentation
+	- REVISIT for next week
+
+- [x] - Process documentation
 
 
 
