@@ -185,7 +185,7 @@ This query may also break the browser. Here we can use the intuition that the as
 
 This looks promising. Sure, the numbers we picked for association score, and number of associations is all arbitrary, but we can change those. We can make this more generic, so we need not look only at Asthma, but run this query against for all diseases. By making this a stored procedure or something that we can call programattically, we'll ensure that we can run this query dynamically.
 
-See [here](../app/test.py) and [here](../app/proc.py)
+See [here](./inquiry3/test.py) and [here](./inquiry3/proc.py)
 
 #### What genes are similar to IL4?
 
@@ -237,10 +237,7 @@ We could also extend this to get more high level information and group by diseas
 
 #### Plotting EI vs Score
 
-Need to revisit this.
-
-
-Score is ambiguous until now - "The score ranges from 0 to 1 and is computed according to the formula described in ‘Methods’ section. The DisGeNET score allows obtaining a ranking of GDAs and a straightforward classification of curated vs predicted vs literature-based associations since it stratifies the associations based on their level of evidence."
+Score has seemed relatively ambiguous until now - "The score ranges from 0 to 1 and is computed according to the formula described in ‘Methods’ section. The DisGeNET score allows obtaining a ranking of GDAs and a straightforward classification of curated vs predicted vs literature-based associations since it stratifies the associations based on their level of evidence."
 
 Evidence Index is calculated only using associations appearing in sources BeFree and PsyGeNET - "The "Evidence index" (EI) indicates the existence of contradictory results in publications supporting the gene/variant-disease associations. This index is computed for the sources BeFree and PsyGeNET, by identifying the publications reporting a negative finding on a particular VDA or GDA. Note that only in the case of PsyGeNET, the information used to compute the EI has been validated by experts. "
 
@@ -265,3 +262,29 @@ Since the GAF file is a file of associations, we need to add a new node type to 
     - GO Terms:
         - Ideally what we want to do is add GO properly to our graph database. Since the GO is loosely hierarchical, and very much a graph in structure - we need a good way to programmatically add GOs along with GO-GO relationships - this is tough because we will need to handle obsolete GO terms. We will pull them from here: http://current.geneontology.org/ontology/go-basic.obo . For the time being we add GO terms as empty nodes, ignoring any relationships that a GO tag may have with other GO terms. Many genes may have the same GO, and so it's not a blocker for the simplest queries we'd like to ask. But for the time being, if gene A has GO term G1, and gene B has GO term G2, and G2 is a parent of G1, we wouldn't be able to make an insight about the similarity between gene A and B just yet.
 
+    - We revisit this later to properly plan how to add GO Annotations to our graph model.
+
+
+#### Visualizing Bipartite Graphs
+
+Previously we learned how to write a complex query to get genes related to a gene by association with shared diseases, but simply running the query in Neo4j gave us very little control over what the output looked like, and we also wanted to look into writing stored procdures for neo4j. That was why we had written `test.py` and `proc.py` in the `app` folder. We thought placing these files there made sense as they would eventually serve as important logic for server-side code. 
+
+We extend what we worked on before and looked into building a bipartite graph with `matplotlib` in away that would give us more control over the visualization of this Graph. It did! 
+
+### 10/29 - 11/5
+
+Much of the previous work done sets the stage for the next steps. Now having a query for generating essentially the pipartite graph from Python, we want to explore building a web application architecture to support queries to our graph database, and use these query results to generate a sort of interactive view on the front end.
+
+#### Building a Web App 
+
+##### Move visualization files
+
+test.py and proc.py, originally in the app folder, had to be moved. Sure, these queries are examples of the types of queries we want to support, but at the time of writing them, the main intent was to get some sort of visualization of a bipartite graph, which we still believe is important. But we realize that in the future our front end is likely going to be doing this visualization work, so it would make sense to leave it out of server-side code. Still, these files are important, so they've been moved to the `inquiry3` folder, from the `app` folder (The link to them in 10/15 - 10/22 has been updated to reflect the new location).
+
+##### Server Architecture
+
+We consider the different workflows our project will have when working with Neo4j:
+- Inserting data: Ideally we do this only when we add a new node type to our database (as well as all relationships each node of that type has with other nodes). 
+- Retrieving data: This should be done by the website, which would serve to query our data and present it in an explorable format. We see that we will likely only be doing reads here.
+
+Other considerations - it would also be nice to provide some sort of API that users may query directly without having to use the UI we provide.

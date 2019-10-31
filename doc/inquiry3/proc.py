@@ -42,12 +42,6 @@ class BipartiteProcedure(object):
             G.add_nodes_from(genes, bipartite=1)
             G.add_edges_from(edges)
 
-            # for node in G:
-            #     print(node)
-            #     print(type(node))
-            #     print(node['geneName'])
-            #     print(node['diseaseName'])
-
             labels = dict()
             labels.update( (n, n['diseaseName']) for i, n in enumerate(diseases) )
             labels.update( (n, n['geneName']) for i, n in enumerate(genes) )
