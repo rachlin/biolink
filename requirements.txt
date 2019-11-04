@@ -3,7 +3,7 @@ numpy
 matplotlib
 pprint
 networkx
-Flask
-py2neo
-Flask-GraphQL
-graphene
+# Flask
+# py2neo
+# Flask-GraphQL
+# graphene
