@@ -1,5 +1,6 @@
 from py2neo.ogm import GraphObject, Property, RelatedTo
 from py2neo import Graph
+from graphql import GraphQLError
 
 
 graph = Graph(
@@ -15,9 +16,9 @@ class BaseModel(GraphObject):
                 setattr(self, key, val)
 
 
-    # @property
-    # def all(self):
-    #     return self.match(graph)
+    @property
+    def all(self):
+        return self.match(graph)
 
     # def save(self):
     #     graph.push(self)
@@ -33,8 +34,8 @@ class Gene(BaseModel):
     geneDPI = Property()
 
     def fetch(self):
-        gene = self.match(graph).first()
-        # gene = self.match(graph, self.geneId).first()
+        # gene = self.match(graph).first()
+        gene = self.match(graph, self.geneId).first()
 
         if gene is None:
             raise GraphQLError(f'"{self.geneId}" has not been found in our gene list.')
