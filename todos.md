@@ -1,14 +1,13 @@
 # Task tracking
 ### 10/29 - 11/5
-- [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
-	- Easier way to get GO Annotations
-	 Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
 
-- [ ] - Interactive tools for exploring relations between genes and diseaes - this is a priority
+- [x] - Interactive tools for exploring relations between genes and diseaes - this is a priority
 	- For gene g:
 		- list (should be clickable) of diseases involved
 		- list of pathways involved in
 	- Find similar genes based on disease overlap
+
+	- Partially rendering View for Genes; need to figure out routing in React
 
 - [x] - Think about website architecture
 
@@ -20,7 +19,11 @@
 		- Graph API: powered by Flask, FlaskGraphQL, Graphene? Benefits: No need to make predetermined queries then
 
 
-- [ ] - Process documentation
+- [x] - Process documentation
+
+- [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
+	- Easier way to get GO Annotations
+	 Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
 
 - [ ] - GO Annotations - continue to explore
 

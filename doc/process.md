@@ -288,3 +288,9 @@ We consider the different workflows our project will have when working with Neo4
 - Retrieving data: This should be done by the website, which would serve to query our data and present it in an explorable format. We see that we will likely only be doing reads here.
 
 Other considerations - it would also be nice to provide some sort of API that users may query directly without having to use the UI we provide.
+
+##### Tentative Solution
+
+- Use Flask to run an API server we can leverage. The API will have some prebuilt queries we run until we decide upon a better schema.
+
+- React will be the front end. Dynamically generate gene/disease info by making API queries.
