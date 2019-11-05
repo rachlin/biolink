@@ -1,0 +1,7 @@
+Flask==1.1.1
+simplejson==3.16.0
+requests==2.20.1
+neo4j==1.7.4
+py2neo==4.3.0
+Flask-GraphQL==2.0.0
+graphene==2.1.8
