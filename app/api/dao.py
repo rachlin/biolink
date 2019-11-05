@@ -7,9 +7,10 @@ class GeneDao(object):
 
     def getGeneInfo(self, geneName):
         info = {
-            "Associated Diseases" : renderDiseases(self.dbq.queryDB("g_ad", geneName)),
-            "Related Genes" : {
-                "Related by Diseases" : renderGenes(self.dbq.queryDB("g_ag", geneName))
+            "GeneName" : geneName,
+            "AssociatedDiseases" : renderDiseases(self.dbq.queryDB("g_ad", geneName)),
+            "RelatedGenes" : {
+                "RelatedByDisease" : renderGenes(self.dbq.queryDB("g_ag", geneName))
             }
         }
 
@@ -23,9 +24,10 @@ class DiseaseDao(object):
 
     def getDiseaseInfo(self, diseaseName):
         info = {
-            "Associated Genes" : renderGenes(self.dbq.queryDB("d_ag", diseaseName)),
-            "Related Diseases" : {
-                "Related by Genes" : renderDiseases(self.dbq.queryDB("d_ad", diseaseName))
+            "DiseaseName" : diseaseName,
+            "AssociatedGenes" : renderGenes(self.dbq.queryDB("d_ag", diseaseName)),
+            "RelatedDiseases" : {
+                "RelatedByGene" : renderDiseases(self.dbq.queryDB("d_ad", diseaseName))
             }
         }
 

@@ -1,6 +1,6 @@
 # Task tracking
 ### 10/29 - 11/5
-- Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
+- [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
 	- Easier way to get GO Annotations
 	 Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
 
@@ -9,9 +9,16 @@
 		- list (should be clickable) of diseases involved
 		- list of pathways involved in
 	- Find similar genes based on disease overlap
-	- Look into CLI now, and maybe UI for generaing tables in the future
 
-- [ ] - Think about website architecture
+- [x] - Think about website architecture
+
+	- Current Setup:
+		- REST API: powered by Flask, using neo4j and (explicit queries for DAO operations)
+		- FrontEnd (Client): powered by React, make API calls to Flask
+
+	- Next steps:
+		- Graph API: powered by Flask, FlaskGraphQL, Graphene? Benefits: No need to make predetermined queries then
+
 
 - [ ] - Process documentation
 
