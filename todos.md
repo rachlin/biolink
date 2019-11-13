@@ -1,4 +1,16 @@
 # Task tracking
+### 11/5 - 11/14
+
+- [ ] - Continue to work on Site/App - rendering explorative experience
+	- Views for Gene/Disease
+		- Related Disease/Gene
+		- Similar Genes/Diseases by Association
+
+- [ ] - Process documentation
+
+- [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
+	- Easier way to get GO Annotations: Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
+
 ### 10/29 - 11/5
 
 - [x] - Interactive tools for exploring relations between genes and diseaes - this is a priority
@@ -7,25 +19,27 @@
 		- list of pathways involved in
 	- Find similar genes based on disease overlap
 
-	- Partially rendering View for Genes; need to figure out routing in React
+	- Done: Partially rendering View for Genes; need to figure out routing in React
 
 - [x] - Think about website architecture
 
-	- Current Setup:
+	- Done - Current Setup:
 		- REST API: powered by Flask, using neo4j and (explicit queries for DAO operations)
 		- FrontEnd (Client): powered by React, make API calls to Flask
 
 	- Next steps:
 		- Graph API: powered by Flask, FlaskGraphQL, Graphene? Benefits: No need to make predetermined queries then
+		- Revisit once the actual core of the project is complete.
 
 
 - [x] - Process documentation
 
 - [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
-	- Easier way to get GO Annotations
-	 Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
+	- Easier way to get GO Annotations -Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
+	- REVISIT FOR Next week
 
 - [ ] - GO Annotations - continue to explore
+	 - REVISIT FOR Next week
 
 
 ### 10/22 - 10/29
