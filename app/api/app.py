@@ -16,6 +16,8 @@ def hello_world():
 
 @app.route('/<node>', methods=['GET'])
 def getNodes(node):
+    import sys
+    print('Hello world!', file=sys.stderr)
     page = 0
     if "page" in request.args:
         page = int(request.args.get("page"))

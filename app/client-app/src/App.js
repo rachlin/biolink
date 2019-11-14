@@ -5,6 +5,11 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from "react-router-dom";
 
+
+let state = {
+  genes: ['IL4', 'NOS2', 'ILI3']
+}
+
 export default function App() {
   return (
     <Router>
@@ -56,17 +61,16 @@ function Genes() {
   let match = useRouteMatch();
 
   let page = 0;
-  let genes = loadGenes(page)
-  console.log(genes)
+  loadGeneAsync(page);
 
   return (
     <div>
       <h2>Genes</h2>
 
       <ul>
-        {genes && genes.map((geneName) => (
+        {state.genes && state.genes.map((geneName) => (
           <li>
-            <Link to={`${match.url}/:geneName`}>{geneName}</Link>
+            <Link to={`${match.url}/${geneName}`}>{geneName}</Link>
           </li>
         ))}
       </ul>
@@ -79,7 +83,7 @@ function Genes() {
         </Route>
         <Route path={`${match.path}/load_more`}>
           page += 1
-          genes = loadGenes(page)
+          loadGeneAsync(page)
         </Route>
         <Route path={match.path}>
           <h3>Please select a gene.</h3>
@@ -88,6 +92,85 @@ function Genes() {
     </div>
   );
 }
+
+
+function Gene() {
+  let { geneName } = useParams();
+
+  var url = new URL("http://localhost:5000/gene/" + geneName)
+  var gene_md = fetch(url, {
+    mode: 'cors',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  var diseases = [].concat(gene_md.AssociatedDiseases)
+
+  var related = Object.assign({}, gene_md.RelatedGenes)
+  var genes = [].concat(related.RelatedByDisease)
+
+
+  return (
+    <div>
+      <center><h1>Gene {geneName} Details</h1></center>
+      <div>
+        Associated Diseases
+        <ul>
+          {diseases.map((disease) => (
+            <li><a href={link("disease", disease)}>{disease}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        Related Genes by Disease Association
+                <ul>
+          {genes.map((gene) => (
+            <li><a href={link("gene", gene)}>{gene}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+function link(type, node_name) {
+  return '/'+ type + '/' + node_name
+}
+
+
+async function loadGenes(page) {
+  var page_number = encodeURIComponent(page)
+  var url = new URL("http://localhost:5000/gene"),
+    params = {
+      "page": page_number
+    }
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+  let response = await fetch(url, {
+    mode: 'cors',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  response = response.json()
+  response = response["Genes"]
+
+  return response;
+}
+
+
+function loadGeneAsync(page) {
+  if (page === 0) {
+    console.log("hi")
+    loadGenes(page).then(response => (state.genes = response))
+  } else {
+    loadGenes(page).then(response => (state.genes.concat(response)))
+  }
+}
+
 
 // function Diseases() {
 //   let match = useRouteMatch();
@@ -119,35 +202,8 @@ function Genes() {
 //   );
 // }
 
-function Gene() {
-  let { geneName } = useParams();
-
-  return <h3>Requested gene name: {geneName}</h3>;
-}
-
 // function Disease() {
 //   let { diseaseName } = useParams();
 
 //   return <h3>Requested disease name: {diseaseName}</h3>;
 // }
-
-
-function loadGenes(page_number) {
-  let jsondata;
-
-  fetch(
-    `https://localhost:5000/gene`,
-    {
-      method: "GET",
-      mode: 'cors',
-      params : {
-        page: page_number
-      }
-    })
-    .then((res) => (res.json()))
-    .then(function (res_json) {
-      jsondata = res_json;
-      // jsondata = [].concat(res_json["Genes"]);
-    })
-    return jsondata
-}

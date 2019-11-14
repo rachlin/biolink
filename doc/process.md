@@ -294,3 +294,34 @@ Other considerations - it would also be nice to provide some sort of API that us
 - Use Flask to run an API server we can leverage. The API will have some prebuilt queries we run until we decide upon a better schema.
 
 - React will be the front end. Dynamically generate gene/disease info by making API queries.
+
+
+### 11/5 - 11/14
+
+With a tentative web app now running, we decided that there were certain things the UI must have to truly be explorative.
+
+These were:
+    - Tables - to view lists of items in an ordered way
+    - Links - links on certain elements that would dynamically pull all the details for an item
+
+#### Server - New Endpoints
+
+To support two new views, viewing all genes/diseases, we exposed two endpoints:
+    - `gene` and `disease`, which supports paginated responses, in batches of 25.
+        - This was important to us, since we didn't want to run a query and send over a lot of items in a list, when a user may not be interested in many
+        - This allows the user to still query by page, and get all the results.
+
+
+#### Client - Client-Side routing and Links (prelim)
+
+To be able to support creating links for views that aren't specific files, we need to allow React to intercept URLs and pull all the information necessary to dynamically render the necessary components for the view. 
+
+We are using `react-router-dom` to help do this.
+
+#### Client - Fetching Asynchronous calls are hard
+
+Although we have client side routing, fetching the necessary data from the API is still proving to be difficult. Querying the API works, but as I'm not familiar with the intricacies of React, specifically Promises, and how to manage state within Functions/Components, I'm still stuck on rendering dynamic lists and haven't quite figure out how to convert my Promise lists to JSArrays.
+
+#### Next Steps
+
+
