@@ -9,6 +9,23 @@ class DB(object):
     def close(self):
         self._driver.close()
 
+
+    def queryDB_simple(self, query_func, paginated=True, page=0):
+
+        query_funcs = {
+            "gene" : self._get_genes,
+            "disease" : self._get_diseases
+        }
+
+        if query_func in query_funcs:
+            with self._driver.session() as session:
+                results = session.write_transaction(
+                    query_funcs[query_func], paginated, page)
+                return results
+
+        return {}
+
+
     def queryDB(self, query_func, node_name, acceptable_association_score=0.5, num_associations=2):
 
         query_funcs = {
@@ -26,6 +43,34 @@ class DB(object):
                 return results
 
         return {}
+
+
+    @staticmethod
+    def _get_genes(tx, paginated, page):
+        """
+        Returns list of genes in batches of 25. If paginated is False, pulls the whole
+        collection of genes. Pages are zero-indexed(start from 0)
+        """
+        if not paginated:
+            query_string = 'MATCH (g1:Gene) RETURN g1;'
+        else:
+            query_string = 'MATCH (g1:Gene) RETURN g1 ORDER BY g1.geneId SKIP ' + str(page * 25) + ' LIMIT 25;'
+            result= tx.run(query_string)
+            return result.data()
+
+
+    @staticmethod
+    def _get_diseases(tx, paginated, page):
+        """
+        Returns list of diseases in batches of 25. If paginated is False, pulls the whole
+        collection of diseases. Pages are zero-indexed(start from 0)
+        """
+        if not paginated:
+            query_string = 'MATCH (d1:Disease) RETURN d1;'
+        else:
+            query_string = 'MATCH (d1:Disease) RETURN d1 ORDER BY d1.diseaseId SKIP ' + str(page * 25) + ' LIMIT 25;'
+            result= tx.run(query_string)
+            return result.data()
 
 
     @staticmethod
