@@ -1,12 +1,32 @@
 # Task tracking
+### 11/14 - 11/18
+
+Being a bit ambitious with this week's tasks (may not get to many of these, but this is where I want to see growth in the project, to streamline how easy it is to add to the graph. Also want to look into how I can leverage our own API to add data to the database, so we may not need to wipe and rebuild everytime from scratch.)
+ - [ ] - Continue to work on Site/App - rendering explorative experience
+	- Views for Gene/Disease
+		- Related Disease/Gene
+		- Similar Genes/Diseases by Association
+	- Action Items:
+		- React - Figure out how to maintain state for gene/disease list, so lists actually render asynchronously
+		- API - Endpoints are good, but need to ensure that it's extensible, as the graph model changes, we want our queries to support that change
+- [ ] - Extensibility in Adding New Data sources
+	- Intuition: Use config.json as source of truth for not only building the graph database, but as a tool that the API can use as an understanding of schema
+- [ ] - Process documentation
+- [ ] - Drafting paper
+- [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
+	- Easier way to get GO Annotations: Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
+
+
+
+
 ### 11/5 - 11/14
 
-- [ ] - Continue to work on Site/App - rendering explorative experience
+- [x] - Continue to work on Site/App - rendering explorative experience
 	- Views for Gene/Disease
 		- Related Disease/Gene
 		- Similar Genes/Diseases by Association
 
-- [ ] - Process documentation
+- [x] - Process documentation
 
 - [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
 	- Easier way to get GO Annotations: Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
