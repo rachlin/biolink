@@ -14,6 +14,24 @@ def hello_world():
     return jsonify(info)
 
 
+@app.route('/<node>', methods=['GET'])
+def getNodes(node):
+    import sys
+    print('Hello world!', file=sys.stderr)
+    page = 0
+    if "page" in request.args:
+        page = int(request.args.get("page"))
+
+    if node == "gene":
+        gd = GeneDao()
+        return jsonify(gd.getGenes(page))
+    elif node == "disease":
+        dd = DiseaseDao()
+        return jsonify(dd.getDiseases(page))
+    else:
+        return jsonify({})
+
+
 @app.route('/<node>/<nodeName>', methods=['GET'])
 def getNodeDetails(node, nodeName):
     if node == "gene":

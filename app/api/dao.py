@@ -5,6 +5,15 @@ class GeneDao(object):
     def __init__(self):
         self.dbq = DB()
 
+
+    def getGenes(self, page):
+        info = {
+            "Genes" : renderGenes(self.dbq.queryDB_simple("gene", True, page)),
+            "Page" : page
+        }
+
+        return info
+
     def getGeneInfo(self, geneName):
         info = {
             "GeneName" : geneName,
@@ -21,6 +30,16 @@ class DiseaseDao(object):
 
     def __init__(self):
         self.dbq = DB()
+
+
+    def getDiseases(self, page):
+        info = {
+            "Diseases" : renderDiseases(self.dbq.queryDB_simple("disease", True, page)),
+            "Page" : page
+        }
+
+        return info
+
 
     def getDiseaseInfo(self, diseaseName):
         info = {
