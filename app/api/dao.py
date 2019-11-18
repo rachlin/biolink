@@ -5,10 +5,14 @@ class GeneDao(object):
     def __init__(self):
         self.dbq = DB()
 
+    
+    def getNeighborTypes(self):
+        return ["Disease"]
+
 
     def getGenes(self, page):
         info = {
-            "Genes" : renderGenes(self.dbq.queryDB_simple("gene", True, page)),
+            "Genes" : self.dbq.queryDB_Entity(entityType="Gene", entityIdKey="geneId", entityNameKey="geneName", page=page),
             "Page" : page
         }
 
@@ -31,10 +35,13 @@ class DiseaseDao(object):
     def __init__(self):
         self.dbq = DB()
 
+    def getNeighborTypes(self):
+        return ["Gene"]
+
 
     def getDiseases(self, page):
         info = {
-            "Diseases" : renderDiseases(self.dbq.queryDB_simple("disease", True, page)),
+            "Diseases" : self.dbq.queryDB_Entity(entityType="Disease", entityIdKey="diseaseId", entityNameKey="diseaseName", page=page),
             "Page" : page
         }
 
@@ -44,17 +51,19 @@ class DiseaseDao(object):
     def getDiseaseInfo(self, diseaseName):
         info = {
             "DiseaseName" : diseaseName,
-            "AssociatedGenes" : renderGenes(self.dbq.queryDB("d_ag", diseaseName)),
-            "RelatedDiseases" : {
-                "RelatedByGene" : renderDiseases(self.dbq.queryDB("d_ad", diseaseName))
-            }
+            "Neighbors" : {},
+            "RelatedDiseases" : {}
         }
+
+        for neighborType in self.getNeighborTypes():
+            info["Neighbors"][neighborType] = self.dbq.queryDB_Neighbors(entityType="Disease", entityNameKey="diseaseName", entityName=diseaseName, neighborType=neighborType, neighborNameKey="geneName")
+            info["RelatedDiseases"]["RelatedBy" + neighborType] = self.dbq.queryDB_SimilarByNeighbor(entityType="Disease", entityNameKey="diseaseName", entityName=diseaseName, neighborType=neighborType)
 
         return info
 
 
 def renderDiseases(results):
-    return [result['d1']['diseaseName'] for result in results]
+    return [result['e1']['diseaseName'] for result in results]
 
 def renderGenes(results):
-    return [result['g1']['geneName'] for result in results]
+    return [result['e1']['geneName'] for result in results]
