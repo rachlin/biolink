@@ -1,14 +1,9 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 // import Gene from './components/gene';
 // import Disease from './components/disease';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from "react-router-dom";
-
-
-let state = {
-  genes: ['IL4', 'NOS2', 'ILI3']
-}
 
 export default function App() {
   return (
@@ -24,9 +19,9 @@ export default function App() {
           <li>
             <Link to="/gene">Genes</Link>
           </li>
-          {/* <li>
+          <li>
             <Link to="/disease">Diseases</Link>
-          </li> */}
+          </li>
         </ul>
 
         <Switch>
@@ -36,9 +31,9 @@ export default function App() {
           <Route path="/gene">
             <Genes />
           </Route>
-          {/* <Route path="/disease">
+          <Route path="/disease">
             <Diseases />
-          </Route> */}
+          </Route>
           <Route path="/">
             <Home />
           </Route>
@@ -60,30 +55,34 @@ function About() {
 function Genes() {
   let match = useRouteMatch();
 
-  let page = 0;
-  loadGeneAsync(page);
+  const [page, setPage] = useState(0);
+  const [genes, setGenes] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await loadGenes(page);
+      setGenes(genes.concat(response));
+    }
+    fetchData();
+  }, [page]);
 
   return (
     <div>
       <h2>Genes</h2>
 
       <ul>
-        {state.genes && state.genes.map((geneName) => (
+        {genes && genes.map((geneName) => (
           <li>
             <Link to={`${match.url}/${geneName}`}>{geneName}</Link>
           </li>
         ))}
       </ul>
 
-      <Link to={`${match.url}/load_more`}> Load more genes </Link>
+      <button onClick={() => setPage(page + 1)}> Load more genes </button>
 
       <Switch>
         <Route path={`${match.path}/:geneName`}>
           <Gene />
-        </Route>
-        <Route path={`${match.path}/load_more`}>
-          page += 1
-          loadGeneAsync(page)
         </Route>
         <Route path={match.path}>
           <h3>Please select a gene.</h3>
@@ -94,49 +93,90 @@ function Genes() {
 }
 
 
+function Diseases() {
+  let match = useRouteMatch();
+
+  const [page, setPage] = useState(0);
+  const [diseases, setDiseases] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await loadDisease(page);
+      setDiseases(diseases.concat(response));
+    }
+    fetchData();
+  }, [page]);
+
+  return (
+    <div>
+      <h2>Diseases</h2>
+
+      <ul>
+        {diseases && diseases.map((diseaseName) => (
+          <li>
+            <Link to={`${match.url}/${diseaseName}`}>{diseaseName}</Link>
+          </li>
+        ))}
+      </ul>
+
+      <button onClick={() => setPage(page + 1)}> Load more diseases </button>
+
+      <Switch>
+        <Route path={`${match.path}/:diseaseName`}>
+          {/* <Disease /> */}
+        </Route>
+        <Route path={match.path}>
+          <h3>Please select a disease.</h3>
+        </Route>
+      </Switch>
+    </div>
+  );
+}
+
+
 function Gene() {
   let { geneName } = useParams();
+  let match = useRouteMatch();
 
-  var url = new URL("http://localhost:5000/gene/" + geneName)
-  var gene_md = fetch(url, {
-    mode: 'cors',
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await loadGeneInfo(geneName);
+      console.log(response)
+      setData(response);
     }
-  });
+    fetchData();
+  }, [geneName]);
+  
 
-  var diseases = [].concat(gene_md.AssociatedDiseases)
-
-  var related = Object.assign({}, gene_md.RelatedGenes)
+  var related = Object.assign({}, data.Neighbors)
+  var diseases = [].concat(related.Disease)
+  related = Object.assign({}, data.RelatedGenes)
   var genes = [].concat(related.RelatedByDisease)
 
 
   return (
     <div>
-      <center><h1>Gene {geneName} Details</h1></center>
+      <center><h1>Gene Details</h1></center>
       <div>
         Associated Diseases
         <ul>
           {diseases.map((disease) => (
-            <li><a href={link("disease", disease)}>{disease}</a></li>
+            <li><Link to="/disease/:disease">{disease}</Link></li>
           ))}
         </ul>
       </div>
       <div>
         Related Genes by Disease Association
-                <ul>
+        <ul>
           {genes.map((gene) => (
-            <li><a href={link("gene", gene)}>{gene}</a></li>
+            <li><Link to="/gene/:gene">{gene}</Link></li>
           ))}
         </ul>
       </div>
     </div>
   )
-}
-
-function link(type, node_name) {
-  return '/'+ type + '/' + node_name
 }
 
 
@@ -154,56 +194,39 @@ async function loadGenes(page) {
     headers: {
       'Content-Type': 'application/json'
     }
-  });
-  response = response.json()
-  response = response["Genes"]
+  }).then((res) => (res.json())).then((res) => (res["Genes"]));
 
   return response;
 }
 
+async function loadGeneInfo(geneName) {
+  var url = new URL("http://localhost:5000/gene/" + geneName)
+  let response = await fetch(url, {
+    mode: 'cors',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then((res) => (res.json()));
 
-function loadGeneAsync(page) {
-  if (page === 0) {
-    console.log("hi")
-    loadGenes(page).then(response => (state.genes = response))
-  } else {
-    loadGenes(page).then(response => (state.genes.concat(response)))
-  }
+  return response;
 }
 
+async function loadDisease(page) {
+  var page_number = encodeURIComponent(page)
+  var url = new URL("http://localhost:5000/disease"),
+    params = {
+      "page": page_number
+    }
+  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
 
-// function Diseases() {
-//   let match = useRouteMatch();
+  let response = await fetch(url, {
+    mode: 'cors',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then((res) => (res.json())).then((res) => (res["Diseases"]));
 
-//   return (
-//     <div>
-//       <h2>Diseases</h2>
-
-//       <ul>
-//         <li>
-//           <Link to={`${match.url}/components`}>Components</Link>
-//         </li>
-//         <li>
-//           <Link to={`${match.url}/props-v-state`}>
-//             Props v. State
-//             </Link>
-//         </li>
-//       </ul>
-
-//       <Switch>
-//         <Route path={`${match.path}/:diseaseName`}>
-//           <Disease />
-//         </Route>
-//         <Route path={match.path}>
-//           <h3>Please select a disease.</h3>
-//         </Route>
-//       </Switch>
-//     </div>
-//   );
-// }
-
-// function Disease() {
-//   let { diseaseName } = useParams();
-
-//   return <h3>Requested disease name: {diseaseName}</h3>;
-// }
+  return response;
+}
