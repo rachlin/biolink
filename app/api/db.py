@@ -28,12 +28,12 @@ class DB(object):
         query_string = 'match (n:'+neighborType+') '
 
         if relationship_details["FromNode"] == entityType:
-            query_string += 'where size((n)<-[:AssociatesWith]-(:'+entityType+')) > ' + str(num_associations) + ' with collect(n) as neighbors '
-            query_string += 'match (n1:'+neighborType+')<-[a:AssociatesWith]-(e:'+entityType+' {'+entityNameKey+': "' + entityName + '"}) '
+            query_string += 'where size((n)<-[:'+relationship_details["RelationName"]+']-(:'+entityType+')) > ' + str(num_associations) + ' with collect(n) as neighbors '
+            query_string += 'match (n1:'+neighborType+')<-[a:'+relationship_details["RelationName"]+']-(e:'+entityType+' {'+entityNameKey+': "' + entityName + '"}) '
         
         else:  #from node is neighbor type
-            query_string += 'where size((n)-[:AssociatesWith]->(:'+entityType+')) > ' + str(num_associations) + ' with collect(n) as neighbors '
-            query_string += 'match (n1:'+neighborType+')-[a:AssociatesWith]->(e:'+entityType+' {'+entityNameKey+': "' + entityName + '"}) '
+            query_string += 'where size((n)-[:'+relationship_details["RelationName"]+']->(:'+entityType+')) > ' + str(num_associations) + ' with collect(n) as neighbors '
+            query_string += 'match (n1:'+neighborType+')-[a:'+relationship_details["RelationName"]+']->(e:'+entityType+' {'+entityNameKey+': "' + entityName + '"}) '
 
         query_string += 'where n1 in neighbors and a.score > ' + str(acceptable_association_score) + ' return n1;'
         result = tx.run(query_string)
@@ -49,12 +49,12 @@ class DB(object):
         query_string = 'match (e:'+entityType+') '
 
         if relationship_details["FromNode"] == entityType:
-            query_string += 'where size((e)-[:AssociatesWith]->(:'+neighborType+')) > ' + str(num_associations) + ' with collect(e) as entities '
-            query_string += 'match (e1:'+entityType+')-[b:AssociatesWith]->(n:'+neighborType+')<-[a:AssociatesWith]-(target:'+entityType+' {'+entityNameKey+' : "' + entityName + '"}) '
+            query_string += 'where size((e)-[:'+relationship_details["RelationName"]+']->(:'+neighborType+')) > ' + str(num_associations) + ' with collect(e) as entities '
+            query_string += 'match (e1:'+entityType+')-[b:'+relationship_details["RelationName"]+']->(n:'+neighborType+')<-[a:'+relationship_details["RelationName"]+']-(target:'+entityType+' {'+entityNameKey+' : "' + entityName + '"}) '
 
         else:
-            query_string += 'where size((e)<-[:AssociatesWith]-(:'+neighborType+')) > ' + str(num_associations) + ' with collect(e) as entities '
-            query_string += 'match (e1:'+entityType+')<-[b:AssociatesWith]-(n:'+neighborType+')-[a:AssociatesWith]->(target:'+entityType+' {'+entityNameKey+' : "' + entityName + '"}) '
+            query_string += 'where size((e)<-[:'+relationship_details["RelationName"]+']-(:'+neighborType+')) > ' + str(num_associations) + ' with collect(e) as entities '
+            query_string += 'match (e1:'+entityType+')<-[b:'+relationship_details["RelationName"]+']-(n:'+neighborType+')-[a:'+relationship_details["RelationName"]+']->(target:'+entityType+' {'+entityNameKey+' : "' + entityName + '"}) '
 
         query_string += 'where e1 in entities and b.score > ' + str(acceptable_association_score) + ' and a.score > ' + str(acceptable_association_score) + ' return e1;' 
         result = tx.run(query_string)

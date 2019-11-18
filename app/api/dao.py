@@ -11,6 +11,7 @@ class GeneDao(object):
             {
                 "NeighborType" : "Disease",
                 "NeighborNameKey" : "diseaseName",
+                "RelationName" : "AssociatesWith",
                 "FromNode" : self.entityType,
                 "ToNode" : "Disease"
             }
@@ -53,6 +54,7 @@ class DiseaseDao(object):
             {
                 "NeighborType" : "Gene",
                 "NeighborNameKey" : "geneName",
+                "RelationName" : "AssociatesWith",
                 "FromNode" : "Gene",
                 "ToNode" : self.entityType
             }
