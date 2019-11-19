@@ -1,18 +1,40 @@
 # Task tracking
-### 11/14 - 11/18
+
+### 11/19 - 11/27
+
+- [ ] - Client-side Table View
+	- See resources: `https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/sorting`
+- [ ] - Client-side Search functionality
+- [ ] - Think about potential update strategy
+- [ ] - Explore old biolink data dump
+- [ ] - Start working on paper
+- [ ] - Optional - GO Annotations
+
+
+### 11/14 - 11/19
 
 Being a bit ambitious with this week's tasks (may not get to many of these, but this is where I want to see growth in the project, to streamline how easy it is to add to the graph. Also want to look into how I can leverage our own API to add data to the database, so we may not need to wipe and rebuild everytime from scratch.)
- - [ ] - Continue to work on Site/App - rendering explorative experience
+ - [x] - Continue to work on Site/App - rendering explorative experience
 	- Views for Gene/Disease
 		- Related Disease/Gene
 		- Similar Genes/Diseases by Association
 	- Action Items:
 		- React - Figure out how to maintain state for gene/disease list, so lists actually render asynchronously
 		- API - Endpoints are good, but need to ensure that it's extensible, as the graph model changes, we want our queries to support that change
-- [ ] - Extensibility in Adding New Data sources
+	- Done - Need to leverage react-table to render data, but have a clickbale view that allows navigation between genes and diseases that is extensible and will also work if we add GOAnnotations
+
+- [x] - Extensibility in Adding New Data sources
 	- Intuition: Use config.json as source of truth for not only building the graph database, but as a tool that the API can use as an understanding of schema
-- [ ] - Process documentation
-- [ ] - Drafting paper
+	- Done - Abstracted db calls, but still need to leverage config.json and make the ultimate source of truth
+
+- [x] - Process documentation
+
+	- Done - Updated with this week's progress
+
+- [x] - Drafting paper
+
+	- Done - Sections added, need to begin writing
+
 - [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
 	- Easier way to get GO Annotations: Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
 
