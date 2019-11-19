@@ -1,5 +1,17 @@
 # Task tracking
-### 11/14 - 11/18
+
+### 11/19 - 11/27
+
+- [ ] - Client-side Table View
+	- See resources: `https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/sorting`
+- [ ] - Client-side Search functionality
+- [ ] - Think about potential update strategy
+- [ ] - Explore old biolink data dump
+- [ ] - Start working on paper
+- [ ] - Optional - GO Annotations
+
+
+### 11/14 - 11/19
 
 Being a bit ambitious with this week's tasks (may not get to many of these, but this is where I want to see growth in the project, to streamline how easy it is to add to the graph. Also want to look into how I can leverage our own API to add data to the database, so we may not need to wipe and rebuild everytime from scratch.)
  - [x] - Continue to work on Site/App - rendering explorative experience
