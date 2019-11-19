@@ -33,15 +33,9 @@ export default function App() {
           <Route path="/gene">
             <Genes />
           </Route>
-          {/* <Route path="/gene/:gene">
-            <Gene />
-          </Route> */}
           <Route path="/disease">
             <Diseases />
           </Route>
-          {/* <Route path="/disease/:disease">
-            <Disease />
-          </Route> */}
           <Route path="/">
             <Home />
           </Route>

@@ -322,6 +322,52 @@ We are using `react-router-dom` to help do this.
 
 Although we have client side routing, fetching the necessary data from the API is still proving to be difficult. Querying the API works, but as I'm not familiar with the intricacies of React, specifically Promises, and how to manage state within Functions/Components, I'm still stuck on rendering dynamic lists and haven't quite figure out how to convert my Promise lists to JSArrays.
 
-#### Next Steps
+
+### 11/14 - 11/19
+
+Most recently, we were facing issues with many aspects of the webapp - client-side routing and making API calls properly (working with Promises in JavaScript) was a bit intimidating to tackle. Perhaps more importantly, on the back end, the DB queries we were interested in were hardcoded specifically for the two entities, Gene and Disease.
+
+#### Abstracting the Backend
+
+Last week, the API had 4 endpoints, and this didn't change this week either. What did change, was the content within the response objects when `gene/geneName` and `disease/diseaseName` are called. For example, hitting `/gene/IL4'` now returns:
+
+    {
+        "GeneName": "IL4", 
+        "Neighbors": {
+            "Disease": [
+                "Rhinitis", 
+                "Asthma", 
+                "Dermatitis, Atopic"
+            ]
+        }, 
+        "RelatedGenes": {
+            "RelatedByDisease": [
+                "ICAM1", 
+                "NOS2", 
+                "IL5", 
+                "CCL5", 
+                "IL13", 
+                "MMP9", 
+                "IL13"
+            ]
+        }
+    }
+
+The "Neighbors" concept is new. Realizing that our graph might grow and there may be new node types added, we decided that we would like to be able to get associations not between genes and diseases, but also genes and their GO Annotations as well. `Disease` and `GO Annotation`, then, are neighbors to `Gene`. Our db query function was no longer something that said "get me all diseases associated with this gene", but rather "give me all neighbors of nodetype `nt` associated with this gene", where `nt` is in ['Disease', 'GO Annotation']. While we still haven't extended the database to incorporate new nodetypes, our DB queries are generic, and each `Dao` passes in the Entity specific local schema to the query, containing information about which neighbor to consider, what the directionality of the relationship is. The onus is then on the Dao to pass the right information to the querier. 
+
+Essentially the queries were changed:
+- query for getting genes/diseases were merged into a query for getting entities (gene/disease and page number) would be provided
+- query for getting associated diseases/genes for a specific gene/disease were merged into a query for getting neighbors of an entity
+- query for getting genes/disease similar to a specific gene/disease were merged into a query for getting entities similar to a specific entity via a specific neighbor type.
+
+There's still improvement for further abstraction, as each Dao now has to know the schema, and everytime we have a new entity, we have to create a new schema dicionary for the Dao to rely on. Ideally, if we could leverage the config.json and rely on that, then there may need to be only one Dao object that looks at the schema. We hope to revisit this later, but for now, the API is more robust than it was before.
 
 
+#### Fixing the Front-End
+
+With the API now solidified and the response object providing data in a more extensible manner, we revisited the client. Leveraging `react-router-dom` last time, we were able to define many routes, but we had run into issues with 1) pulling the data from our API and 2) rendering that data. We also had issues with using functional React but wanting to maintain state,
+to keep track of page numbers (for the gene list and disease list).
+
+Reaching out to some peers who were more familar with React, we learned about `useState()` and `useEffect()`. `useState()` allows us to store page number and the current gene/disease list, with some initial values. We leverage `useEffect()` to call a function that fetches data from our API asynchronously and once a response is returned, we update or append to the gene list, and the component is able to re-render with the list. This laid the groundwork for rendering genes and diseases. Each item in the list is a clickable link that will route the app to render the information for that specific gene/disease.
+
+For this gene/disease specific view, we refactored where we left off last week, again leveraging `useState()` and `useEffect()` to fetch the information from the API asynchronously and re-render the component once the data was received. But clicking the links didn't take us to the route we actually wanted, and so we weren't able to see the information for a disease if we went to the gene first and vice versa. This was actually a minor issue that was a result of appending the desired URL to the current path every time. Once this was figured out, we worked to split up our components, so `App.js` wasn't cluttered.
