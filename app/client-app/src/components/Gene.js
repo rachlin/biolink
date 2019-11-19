@@ -42,14 +42,6 @@ export default function Gene() {
                     ))}
                 </ul>
             </div>
-            {/* <Switch>
-                <Route path={`${match.path}/:gene`}>
-                    <Gene />
-                </Route>
-                <Route path={`disease/:disease`}>
-                    <Disease />
-                </Route>
-            </Switch> */}
         </div>
     )
 }
