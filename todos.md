@@ -21,7 +21,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 
 - [x] - Drafting paper
 
-	- Started, continue
+	- Done - Sections added, need to begin writing
 
 - [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
 	- Easier way to get GO Annotations: Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
