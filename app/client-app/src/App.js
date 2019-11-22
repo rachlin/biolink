@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
 import Genes from './components/Genes';
 import Diseases from './components/Diseases';
-import DTable from './components/GeneTable';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from "react-router-dom";
 
@@ -23,9 +21,6 @@ export default function App() {
           <li>
             <Link to="/disease">Diseases</Link>
           </li>
-          <li>
-            <Link to="/dtable">TableTrial</Link>
-          </li>
         </ul>
 
         <Switch>
@@ -40,9 +35,6 @@ export default function App() {
           </Route>
           <Route path="/">
             <Home />
-          </Route>
-          <Route path="/dtable">
-            <DTable />
           </Route>
         </Switch>
       </div>

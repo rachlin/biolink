@@ -4,11 +4,9 @@ import { useTable, useSortBy } from 'react-table'
 
 const Styles = styled.div`
   padding: 1rem;
-
   table {
     border-spacing: 0;
     border: 1px solid black;
-
     tr {
       :last-child {
         td {
@@ -16,14 +14,12 @@ const Styles = styled.div`
         }
       }
     }
-
     th,
     td {
       margin: 0;
       padding: 0.5rem;
       border-bottom: 1px solid black;
       border-right: 1px solid black;
-
       :last-child {
         border-right: 0;
       }
@@ -45,10 +41,6 @@ function Table({ columns, data }) {
     },
     useSortBy
   )
-
-  // We don't want to render all 2000 rows for this example, so cap
-  // it at 20 for this use case
-  const firstPageRows = rows.slice(0, 20)
 
   return (
     <>
@@ -75,7 +67,7 @@ function Table({ columns, data }) {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {firstPageRows.map(
+          {rows.map(
             (row, i) => {
               prepareRow(row);
               return (
@@ -95,24 +87,12 @@ function Table({ columns, data }) {
   )
 }
 
-function DTable() {
-    console.log(columns)
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: 'Name',
-        accessor : 'geneName'
-      }
-    ], []
-  )
-
-  const data = React.useMemo(() => [{'geneName' : 'NAT2'}, {'geneName' : 'IL4'} ], [])
-
+const ITable = (props) => {
   return (
     <Styles>
-      <Table columns={columns} data={data} />
+      <Table columns={props.columns} data={props.data} />
     </Styles>
   )
 }
 
-export default DTable
+export default ITable

@@ -1,7 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useMemo} from 'react';
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 
 import Gene from './Gene';
+import ITable from './ITable';
 
 
 export default function Genes() {
@@ -9,11 +10,37 @@ export default function Genes() {
   
     const [page, setPage] = useState(0);
     const [genes, setGenes] = useState([]);
+    const genes_columns = useMemo(
+      () => [
+        {
+          Header: 'Name',
+          columns: [
+            {
+              Header: 'Gene Name',
+              accessor: 'geneName',
+              id: 'links',
+              render: ({ cell }) => (<Link to={`/gene/${cell.name}`}>{cell.name}</Link>)
+            },
+          ],
+        },
+      ],
+      []
+    );
+
+    const [gene_data, setGeneData] = useState(useMemo(
+      () => [], []
+    ));
   
     useEffect(() => {
       async function fetchData() {
         const response = await loadGenes(page);
         setGenes(genes.concat(response));
+        setGeneData(
+          gene_data.concat(
+            response.map((geneName) => (
+              {
+                geneName: geneName
+              }))));
       }
       fetchData();
     }, [page]);
@@ -22,14 +49,15 @@ export default function Genes() {
       <div>
         <h2>Genes</h2>
   
-        <ul>
+        {/* <ul>
           {genes && genes.map((geneName) => (
             <li>
               <Link to={`/gene/${geneName}`}>{geneName}</Link>
             </li>
           ))}
-        </ul>
-  
+        </ul> */}
+        {genes && <ITable columns={genes_columns} data={gene_data}/>}
+
         <button onClick={() => setPage(page + 1)}> Load more genes </button>
   
         <Switch>
