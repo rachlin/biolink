@@ -1,52 +1,40 @@
-import React, { Component } from 'react'
-import ReactSearchBox from 'react-search-box'
+import React, { useState, useEffect } from 'react';
+import SearchBar from 'material-ui-search-bar'
 import { Switch, Route, Redirect } from "react-router-dom";
 
-export default class Search extends Component {
-  data = [
-    {
-      key: 'john',
-      value: 'John Doe',
-      link: "/gene/NAT2",
-    },
-    {
-      key: 'jane',
-      value: 'Jane Doe',
-    },
-    {
-      key: 'mary',
-      value: 'Mary Phillips',
-    },
-    {
-      key: 'robert',
-      value: 'Robert',
-    },
-    {
-      key: 'karius',
-      value: 'Karius',
-    },
-  ]
+export default function Search() {
+    const [searchValue, setSearchValue] = useState("");
+    const [genes, setGenes] = useState([]);
+    const [diseases, setDiseases] = useState([]);
 
-  redirect(record) {
-      return (
-        <Switch>
-            <Route>
-                <Redirect push to="/gene/NOS2" />
-            </Route>
-        </Switch>
-      );
-  };
+    const data = ["Hi", "bye"]
 
-  render() {
+    function redirect (record) {
+        return (
+            <Switch>
+                <Route>
+                    <Redirect push to="/gene/NOS2" />
+                </Route>
+            </Switch>
+        );
+    };
+
+    function filter(value) {
+
+    }
+
     return (
-      <ReactSearchBox
-        placeholder="Placeholder"
-        value="Doe"
-        data={this.data}
-        callback={record => console.log(record)}
-        // onSelect={}
-        onSelect={record => this.redirect(record)}
-      />
+        <SearchBar
+            value={searchValue}
+            onChange={(newValue) => setSearchValue(newValue)}
+            // onRequestSearch={() => console.log(searchValue)}
+            onRequestSearch={() => redirect(searchValue)}
+            onCancelSearch={() => setSearchValue("")}
+            style={{
+                margin: '0 auto',
+                maxWidth: 800
+            }}
+            dataSource={data}
+        />
     )
-  }
 }
