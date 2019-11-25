@@ -19,7 +19,7 @@ export default function Genes() {
               Header: 'Gene Name',
               accessor: 'geneName',
               id: 'links',
-              render: ({ cell }) => (<Link to={`/gene/${cell.name}`}>{cell.name}</Link>)
+              renders: ({ cell }) => (<Link to={`/gene/${cell.name}`}>{cell.name}</Link>)
             },
           ],
         },
@@ -61,9 +61,6 @@ export default function Genes() {
         <button onClick={() => setPage(page + 1)}> Load more genes </button>
   
         <Switch>
-          <Route path={`/gene/:geneName`}>
-            <Gene />
-          </Route>
           <Route path={match.path}>
             <h3>Please select a gene.</h3>
           </Route>

@@ -33,9 +33,6 @@ export default function Diseases() {
         <button onClick={() => setPage(page + 1)}> Load more diseases </button>
   
         <Switch>
-          <Route path={`/disease/:diseaseName`}>
-            <Disease />
-          </Route>
           <Route path={match.path}>
             <h3>Please select a disease.</h3>
           </Route>
