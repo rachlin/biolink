@@ -1,6 +1,18 @@
 # Task tracking
 
-### 11/19 - 11/27
+### 11/26 - 12/2
+
+- [] - Write up a Paper
+- [] - Next Steps for Next Semester:
+		-Plot DSI vs DPI
+			- colorcoded by disease class
+			- ClientSide - Graph Plotting (Plotly JS) - https://plot.ly/javascript/sankey-diagram/
+			- GO Annotations
+			- Explore old biolink data dump
+			- ETL Pipeline
+			- Config file stuff
+
+### 11/19 - 11/26
 
 - [x] - Client-side Table View
 	- See resources: `https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/sorting`
