@@ -4,6 +4,7 @@ import Diseases from './components/Diseases';
 import Gene from './components/Gene';
 import Disease from './components/Disease';
 import Search from './components/Search';
+import EnhancedTable from './components/Table';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from "react-router-dom";
 
@@ -11,7 +12,6 @@ export default function App() {
   return (
     <Router>
       <div>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -27,6 +27,9 @@ export default function App() {
           </li>
           <li>
             <Link to="/search">Search</Link>
+          </li>
+          <li>
+            <Link to="/table">Table</Link>
           </li>
         </ul>
 
@@ -48,6 +51,9 @@ export default function App() {
           </Route>
           <Route path="/search">
             <Search />
+          </Route>
+          <Route path="/table">
+            <EnhancedTable />
           </Route>
           <Route path="/">
             <Home />

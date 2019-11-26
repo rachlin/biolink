@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import SearchBar from 'material-ui-search-bar'
 import { Switch, Route, Redirect } from "react-router-dom";
+
+import Gene from "./Gene";
+import { loadGeneInfo } from "./functions.js";
+import { stringify } from 'querystring';
 
 export default function Search() {
     const [searchValue, setSearchValue] = useState("");
     const [genes, setGenes] = useState([]);
     const [diseases, setDiseases] = useState([]);
 
-    const data = ["Hi", "bye"]
+    // useEffect(() => {
+    //     async function fetchData() {
+    //       const response = await loadGenes(page);
+    //       setGenes(genes.concat(response));
+    //       setGeneData(
+    //         gene_data.concat(
+    //           response.map((geneName) => (
+    //             {
+    //               geneName: geneName
+    //             }))));
+    //     }
+    //     fetchData();
+    //   }, [page]);
+    
+    
 
     function redirect (record) {
-        return (
-            <Switch>
-                <Route>
-                    <Redirect push to="/gene/NOS2" />
-                </Route>
-            </Switch>
-        );
+        console.log(record)
+        setSearchValue(record)
+        return <Gene />;
     };
 
-    function filter(value) {
-
+    function filter(value) {   
     }
 
     return (
-        <SearchBar
-            value={searchValue}
-            onChange={(newValue) => setSearchValue(newValue)}
-            // onRequestSearch={() => console.log(searchValue)}
-            onRequestSearch={() => redirect(searchValue)}
-            onCancelSearch={() => setSearchValue("")}
-            style={{
-                margin: '0 auto',
-                maxWidth: 800
-            }}
-            dataSource={data}
-        />
+        <div>Search here</div>
+        
     )
 }
