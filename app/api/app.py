@@ -3,7 +3,7 @@ from flask_cors import CORS
 import simplejson
 import json
 
-from dao import GeneDao, DiseaseDao
+from dao import EntityDao
 
 app = Flask(__name__)
 CORS(app)
@@ -23,27 +23,25 @@ def getNodes(node):
         page = int(request.args.get("page"))
 
     if node == "gene":
-        gd = GeneDao()
-        return jsonify(gd.getGenes(page))
+        dao = EntityDao("Gene")
     elif node == "disease":
-        dd = DiseaseDao()
-        return jsonify(dd.getDiseases(page))
+        dao = EntityDao("Disease")
     else:
         return jsonify({})
+    
+    return jsonify(dao.getEntities(page))
 
 
 @app.route('/<node>/<nodeName>', methods=['GET'])
 def getNodeDetails(node, nodeName):
     if node == "gene":
-        gd = GeneDao()
-        return jsonify(gd.getGeneInfo(nodeName))
-
+        dao = EntityDao("Gene")
     elif node == "disease":
-        dd = DiseaseDao()
-        return jsonify(dd.getDiseaseInfo(nodeName))
-
+        dao = EntityDao("Disease")
     else:
         return jsonify({})
+
+    return jsonify(dao.getEntityInfo(nodeName))
 
 
 if __name__ == '__main__':
