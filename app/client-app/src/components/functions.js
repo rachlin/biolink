@@ -70,4 +70,4 @@ async function loadDiseaseInfo(diseaseName) {
     return response;
 }
 
-export { loadDiseaseInfo, loadGeneInfo, loadEntities };
+export { loadDiseaseInfo, loadGeneInfo, loadEntities, loadSearchResults };
