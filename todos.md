@@ -2,8 +2,8 @@
 
 ### 11/26 - 12/2
 
-- [] - Write up Paper
-- [] - Future Steps:
+- [ ] - Write up Paper
+- [ ] - Future Steps:
 	- Plot DSI vs DPI
 	- colorcoded by disease class
 	- ClientSide - Graph Plotting (Plotly JS) - https://plot.ly/javascript/sankey-diagram/
