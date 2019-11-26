@@ -45,7 +45,7 @@ class EntityDao(object):
         info = {
             "EntityName" : entityName,
             "Neighbors" : {},
-            "RelatedGenes" : {}
+            "Related" + self.schema["entityType"] : {}
         }
 
         for rel in self.schema["relationships"]:
@@ -56,7 +56,7 @@ class EntityDao(object):
                 entityNameKey=self.schema["entityNameKey"], 
                 entityName=entityName, 
                 relationship_details=rel)
-            info["RelatedGenes"]["RelatedBy" + neighborType] = self.dbq.queryDB_SimilarByNeighbor(
+            info["Related" + self.schema["entityType"]]["RelatedBy" + neighborType] = self.dbq.queryDB_SimilarByNeighbor(
                 entityType=self.schema["entityType"], 
                 entityNameKey=self.schema["entityNameKey"], 
                 entityName=entityName, 
