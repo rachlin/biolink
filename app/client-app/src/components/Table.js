@@ -35,24 +35,27 @@ const useStyles = makeStyles({
 
 export default function SimpleTable(props) {
   const classes = useStyles();  
-  let columns = props.columns;
+  let cols = props.cols;
   let rows = props.rows;
+
+  console.log(rows)
+  console.log(cols)
 
   return (
     <Paper className={classes.root}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            {columns && columns.map((column) => (
-              <TableCell align="right">{column}</TableCell>
+            {cols && cols.map((col) => (
+              <TableCell align="right">{col}</TableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow key={row[columns[0]]}>
-              {columns.map((column) => (
-                <TableCell align="right">{row[column]}</TableCell>
+            <TableRow key={row[cols[0]]}>
+              {cols.map((col) => (
+                <TableCell align="right">{row[col]}</TableCell>
               ))}
             </TableRow>
           ))}

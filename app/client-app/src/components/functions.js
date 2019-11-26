@@ -12,7 +12,7 @@ async function loadGenes(page) {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then((res) => (res.json())).then((res) => (res["Genes"]));
+    }).then((res) => (res.json())).then((res) => (res["Entities"]));
 
     return response;
 }
@@ -31,7 +31,7 @@ async function loadDiseases(page) {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then((res) => (res.json())).then((res) => (res["Diseases"]));
+    }).then((res) => (res.json())).then((res) => (res["Entities"]));
 
     return response;
 }
