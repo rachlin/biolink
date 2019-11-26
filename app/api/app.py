@@ -16,8 +16,6 @@ def hello_world():
 
 @app.route('/<node>', methods=['GET'])
 def getNodes(node):
-    import sys
-    print('Hello world!', file=sys.stderr)
     page = 0
     if "page" in request.args:
         page = int(request.args.get("page"))
@@ -42,6 +40,21 @@ def getNodeDetails(node, nodeName):
         return jsonify({})
 
     return jsonify(dao.getEntityInfo(nodeName))
+
+
+@app.route('/search', methods=['GET'])
+def searchNodes():
+    import schema as config
+    resp = {}
+    nodeVal = ""
+    if "nodeVal" in request.args:
+        nodeVal = request.args.get("nodeVal")
+    
+        for entity_schema in config.schema:
+            dao = EntityDao(entity_schema["entityType"])
+            resp[entity_schema["entityType"]] = dao.searchEntities(nodeVal)
+    
+    return jsonify(resp)
 
 
 if __name__ == '__main__':

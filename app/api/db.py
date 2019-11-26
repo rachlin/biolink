@@ -10,6 +10,25 @@ class DB(object):
         self._driver.close()
 
 
+    # @staticmethod
+    # def getExactEntity(tx, entityType, entityNameKey, entityName):
+    #     """
+    #     """
+    #     query_string = 'MATCH (e1:'+entityType+') RETURN e1 where e1.' + entityNameKey + '=' + entityName + ';'
+    #     result = tx.run(query_string)
+    #     return result.data()
+
+
+    @staticmethod
+    def getFilteredEntities(tx, entityType, entityKey, entityValue):
+        """
+        """
+        query_string = 'MATCH (e1:'+entityType+') WHERE e1.' + entityKey + '=~ \".*' + entityValue + '.*\" RETURN e1;'
+        print(query_string)
+        result = tx.run(query_string)
+        return result.data()
+
+
     @staticmethod
     def getEntities(tx, entityType, entityIdKey, page=0):
         """
@@ -61,13 +80,22 @@ class DB(object):
         return result.data()
 
 
-    def queryDB_Entity(self, entityType, entityIdKey, entityNameKey, page=0):
+    def queryDB_Entities(self, entityType, entityIdKey, entityNameKey, page=0):
         """
         """
         with self._driver.session() as session:
             results = session.write_transaction(
                 self.getEntities, entityType, entityIdKey, page)
-            return [result["e1"][entityNameKey] for result in results]
+            return [result["e1"] for result in results]
+
+
+    def queryDB_EntitiesFilter(self, entityType, entityKey, entityValue):
+        """
+        """
+        with self._driver.session() as session:
+            results = session.write_transaction(
+                self.getFilteredEntities, entityType, entityKey, entityValue)
+            return [result["e1"] for result in results]
 
 
     def queryDB_Neighbors(self, entityType, entityNameKey, entityName, relationship_details, acceptable_association_score=0.5, num_associations=2):
