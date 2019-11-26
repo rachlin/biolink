@@ -1,14 +1,33 @@
 # Task tracking
 
-### 11/19 - 11/27
+### 11/26 - 12/2
 
-- [ ] - Client-side Table View
+- [ ] - Write up Paper
+- [ ] - Future Steps:
+	- Plot DSI vs DPI
+	- colorcoded by disease class
+	- ClientSide - Graph Plotting (Plotly JS) - https://plot.ly/javascript/sankey-diagram/
+	- GO Annotations
+	- Explore relational biolink data dump
+	- ETL Pipeline: https://neo4j.com/blog/rdbms-neo4j-etl-tool/
+	- Config file & build scripts to automate building of graph database (also look into )
+
+### 11/19 - 11/26
+
+- [x] - Client-side Table View
 	- See resources: `https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/sorting`
-- [ ] - Client-side Search functionality
-- [ ] - Think about potential update strategy
+	- Done: See process docs for details
+- [x] - Client-side Search functionality
+	- Done: See process docs for details
+- [x] - Think about potential update strategy
+	- Done - Looked at https://neo4j.com/blog/rdbms-neo4j-etl-tool/
+- [x] - Update process.md
 - [ ] - Explore old biolink data dump
+	- Revisit: See process docs for details
 - [ ] - Start working on paper
+	- Revisit: See process docs for details
 - [ ] - Optional - GO Annotations
+	- Revisit: See process docs for details
 
 
 ### 11/14 - 11/19

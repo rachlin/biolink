@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
-import Genes from './components/Genes';
-import Diseases from './components/Diseases';
-import DTable from './components/GeneTable';
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from "react-router-dom";
+
+import { Genes, Diseases } from './components/Entities';
+import Gene from './components/Gene';
+import Disease from './components/Disease';
+import Search from './components/Search';
+
 
 export default function App() {
   return (
@@ -14,23 +16,26 @@ export default function App() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/about">About</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/gene">Genes</Link>
           </li>
           <li>
             <Link to="/disease">Diseases</Link>
           </li>
-          <li>
-            <Link to="/dtable">TableTrial</Link>
-          </li>
         </ul>
 
         <Switch>
-          <Route path="/about">
+          {/* <Route path="/about">
             <About />
+          </Route> */}
+          <Route path={`/gene/:geneName`}>
+            <Gene />
+          </Route>
+          <Route path={`/disease/:diseaseName`}>
+            <Disease />
           </Route>
           <Route path="/gene">
             <Genes />
@@ -39,19 +44,12 @@ export default function App() {
             <Diseases />
           </Route>
           <Route path="/">
-            <Home />
-          </Route>
-          <Route path="/dtable">
-            <DTable />
+            <Search />
           </Route>
         </Switch>
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
 
 function About() {

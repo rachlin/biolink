@@ -3,7 +3,7 @@ from flask_cors import CORS
 import simplejson
 import json
 
-from dao import GeneDao, DiseaseDao
+from dao import EntityDao
 
 app = Flask(__name__)
 CORS(app)
@@ -16,34 +16,45 @@ def hello_world():
 
 @app.route('/<node>', methods=['GET'])
 def getNodes(node):
-    import sys
-    print('Hello world!', file=sys.stderr)
     page = 0
     if "page" in request.args:
         page = int(request.args.get("page"))
 
     if node == "gene":
-        gd = GeneDao()
-        return jsonify(gd.getGenes(page))
+        dao = EntityDao("Gene")
     elif node == "disease":
-        dd = DiseaseDao()
-        return jsonify(dd.getDiseases(page))
+        dao = EntityDao("Disease")
     else:
         return jsonify({})
+    
+    return jsonify(dao.getEntities(page))
 
 
 @app.route('/<node>/<nodeName>', methods=['GET'])
 def getNodeDetails(node, nodeName):
     if node == "gene":
-        gd = GeneDao()
-        return jsonify(gd.getGeneInfo(nodeName))
-
+        dao = EntityDao("Gene")
     elif node == "disease":
-        dd = DiseaseDao()
-        return jsonify(dd.getDiseaseInfo(nodeName))
-
+        dao = EntityDao("Disease")
     else:
         return jsonify({})
+
+    return jsonify(dao.getEntityInfo(nodeName))
+
+
+@app.route('/search', methods=['GET'])
+def searchNodes():
+    import schema as config
+    resp = {}
+    nodeVal = ""
+    if "nodeVal" in request.args:
+        nodeVal = request.args.get("nodeVal")
+    
+        for entity_schema in config.schema:
+            dao = EntityDao(entity_schema["entityType"])
+            resp[entity_schema["entityType"]] = dao.searchEntities(nodeVal)
+    
+    return jsonify(resp)
 
 
 if __name__ == '__main__':

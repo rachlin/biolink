@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useRouteMatch, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+
+import { loadGeneInfo } from './functions.js';
 
 export default function Gene() {
     let { geneName } = useParams();
-    let match = useRouteMatch();
 
     const [data, setData] = useState({});
 
@@ -19,7 +20,7 @@ export default function Gene() {
 
     var related = Object.assign({}, data.Neighbors)
     var diseases = [].concat(related.Disease)
-    related = Object.assign({}, data.RelatedGenes)
+    related = Object.assign({}, data.RelatedGene)
     var genes = [].concat(related.RelatedByDisease)
 
 
@@ -28,7 +29,7 @@ export default function Gene() {
             <center><h1>Gene Details</h1></center>
             <div>
                 Associated Diseases
-          <ul>
+                <ul>
                     {diseases.map((disease) => (
                         <li><Link to={`/disease/${disease}`}>{disease}</Link></li>
                     ))}
@@ -36,7 +37,7 @@ export default function Gene() {
             </div>
             <div>
                 Related Genes by Disease Association
-          <ul>
+                <ul>
                     {genes.map((gene) => (
                         <li><Link to={`/gene/${gene}`}>{gene}</Link></li>
                     ))}
@@ -44,18 +45,4 @@ export default function Gene() {
             </div>
         </div>
     )
-}
-
-
-async function loadGeneInfo(geneName) {
-    var url = new URL("http://localhost:5000/gene/" + geneName)
-    let response = await fetch(url, {
-        mode: 'cors',
-        credentials: 'same-origin',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then((res) => (res.json()));
-
-    return response;
 }

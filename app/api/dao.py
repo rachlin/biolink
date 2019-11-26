@@ -1,93 +1,99 @@
 from db import DB
+import schema as config
 
-class GeneDao(object):
+class EntityDao(object):
 
-    def __init__(self):
+    def __init__(self, entityType):
         self.dbq = DB()
-        self.entityType = "Gene"
-        self.entityIdKey = "geneId"
-        self.entityNameKey = "geneName"
-        self.relationships = [
-            {
-                "NeighborType" : "Disease",
-                "NeighborNameKey" : "diseaseName",
-                "RelationName" : "AssociatesWith",
-                "FromNode" : self.entityType,
-                "ToNode" : "Disease"
-            }
-        ]
+        self.schema = None
+        for schema in config.schema:
+            if schema["entityType"] == entityType:
+                self.schema = schema
 
 
-    def getGenes(self, page):
+    def getEntities(self, page):
+        entityType = self.schema["entityType"]
+        entityIdKey = self.schema["entityIdKey"]
+        entityNameKey = self.schema["entityNameKey"]
+
+        entities = self.dbq.queryDB_Entities(
+            entityType=entityType,
+            entityIdKey=entityIdKey,
+            entityNameKey=entityNameKey,
+            page=page)
+
         info = {
-            "Genes" : self.dbq.queryDB_Entity(entityType=self.entityType, entityIdKey=self.entityIdKey, entityNameKey=self.entityNameKey, page=page),
+            "Entities" : [],
             "Page" : page
         }
+
+        for ent in entities:
+            obj = {
+                entityIdKey : ent[entityIdKey],
+                entityNameKey : ent[entityNameKey],
+            }
+
+            for prop in self.schema["properties"]:
+                obj[prop] = ent[prop]
+
+            info["Entities"].append(obj)
 
         return info
         
 
-    def getGeneInfo(self, geneName):
+    def getEntityInfo(self, entityName):
         info = {
-            "GeneName" : geneName,
+            "EntityName" : entityName,
             "Neighbors" : {},
-            "RelatedGenes" : {}
+            "Related" + self.schema["entityType"] : {}
         }
 
-        for rel in self.relationships:
+        for rel in self.schema["relationships"]:
             neighborType = rel["NeighborType"]
             neighborNameKey = rel["NeighborNameKey"]
-            info["Neighbors"][neighborType] = self.dbq.queryDB_Neighbors(entityType=self.entityType, entityNameKey=self.entityNameKey, entityName=geneName, relationship_details=rel)
-            info["RelatedGenes"]["RelatedBy" + neighborType] = self.dbq.queryDB_SimilarByNeighbor(entityType=self.entityType, entityNameKey=self.entityNameKey, entityName=geneName, relationship_details=rel)
+            info["Neighbors"][neighborType] = self.dbq.queryDB_Neighbors(
+                entityType=self.schema["entityType"], 
+                entityNameKey=self.schema["entityNameKey"], 
+                entityName=entityName, 
+                relationship_details=rel)
+            info["Related" + self.schema["entityType"]]["RelatedBy" + neighborType] = self.dbq.queryDB_SimilarByNeighbor(
+                entityType=self.schema["entityType"], 
+                entityNameKey=self.schema["entityNameKey"], 
+                entityName=entityName, 
+                relationship_details=rel)
 
         return info
 
 
-class DiseaseDao(object):
+    def searchEntities(self, entityValue):
+        entityType = self.schema["entityType"]
+        entityIdKey = self.schema["entityIdKey"]
+        entityNameKey = self.schema["entityNameKey"]
 
-    def __init__(self):
-        self.dbq = DB()
-        self.entityType = "Disease"
-        self.entityIdKey = "diseaseId"
-        self.entityNameKey = "diseaseName"
-        self.relationships = [
-            {
-                "NeighborType" : "Gene",
-                "NeighborNameKey" : "geneName",
-                "RelationName" : "AssociatesWith",
-                "FromNode" : "Gene",
-                "ToNode" : self.entityType
-            }
-        ]
-
-
-    def getDiseases(self, page):
         info = {
-            "Diseases" : self.dbq.queryDB_Entity(entityType=self.entityType, entityIdKey=self.entityIdKey, entityNameKey=self.entityNameKey, page=page),
-            "Page" : page
+            "Entities" : []
         }
 
+
+        for keyName in [entityIdKey, entityNameKey]:
+
+            try: 
+                entities = self.dbq.queryDB_EntitiesFilter(
+                    entityType=entityType,
+                    entityKey=keyName,
+                    entityValue=entityValue)
+
+                for ent in entities:
+                    obj = {
+                        entityIdKey: ent[entityIdKey],
+                        entityNameKey: ent[entityNameKey],
+                    }
+                    
+                    for prop in self.schema["properties"]:
+                        obj[prop] = ent[prop]
+                        
+                    info["Entities"].append(obj)
+            except ValueError:
+                continue
+
         return info
-
-
-    def getDiseaseInfo(self, diseaseName):
-        info = {
-            "DiseaseName" : diseaseName,
-            "Neighbors" : {},
-            "RelatedDiseases" : {}
-        }
-
-        for rel in self.relationships:
-            neighborType = rel["NeighborType"]
-            neighborNameKey = rel["NeighborNameKey"]
-            info["Neighbors"][neighborType] = self.dbq.queryDB_Neighbors(entityType=self.entityType, entityNameKey=self.entityNameKey, entityName=diseaseName, relationship_details=rel)
-            info["RelatedDiseases"]["RelatedBy" + neighborType] = self.dbq.queryDB_SimilarByNeighbor(entityType=self.entityType, entityNameKey=self.entityNameKey, entityName=diseaseName, relationship_details=rel)
-
-        return info
-
-
-def renderDiseases(results):
-    return [result['e1']['diseaseName'] for result in results]
-
-def renderGenes(results):
-    return [result['e1']['geneName'] for result in results]
