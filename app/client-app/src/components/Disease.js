@@ -20,7 +20,7 @@ export default function Disease() {
 
   var related = Object.assign({}, data.Neighbors)
   var genes = [].concat(related.Gene)
-  related = Object.assign({}, data.RelatedDiseases)
+  related = Object.assign({}, data.RelatedDisease)
   var diseases = [].concat(related.RelatedByGene)
 
 
