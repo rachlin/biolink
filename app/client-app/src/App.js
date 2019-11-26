@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import Genes from './components/Genes';
-import Diseases from './components/Diseases';
+import './App.css';
+import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from "react-router-dom";
+
+import { Genes, Diseases } from './components/Entities';
 import Gene from './components/Gene';
 import Disease from './components/Disease';
 import Search from './components/Search';
-import EnhancedTable from './components/Table';
-import './App.css';
-import { BrowserRouter as Router, Switch, Route, Link, useRouteMatch, useParams } from "react-router-dom";
+
 
 export default function App() {
   return (
@@ -28,9 +28,6 @@ export default function App() {
           <li>
             <Link to="/search">Search</Link>
           </li>
-          <li>
-            <Link to="/table">Table</Link>
-          </li>
         </ul>
 
         <Switch>
@@ -51,9 +48,6 @@ export default function App() {
           </Route>
           <Route path="/search">
             <Search />
-          </Route>
-          <Route path="/table">
-            <EnhancedTable />
           </Route>
           <Route path="/">
             <Home />
