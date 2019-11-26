@@ -25,9 +25,6 @@ export default function App() {
           <li>
             <Link to="/disease">Diseases</Link>
           </li>
-          <li>
-            <Link to="/search">Search</Link>
-          </li>
         </ul>
 
         <Switch>
@@ -46,20 +43,13 @@ export default function App() {
           <Route path="/disease">
             <Diseases />
           </Route>
-          <Route path="/search">
-            <Search />
-          </Route>
           <Route path="/">
-            <Home />
+            <Search />
           </Route>
         </Switch>
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
 }
 
 function About() {

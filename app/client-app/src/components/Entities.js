@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-
-import { loadEntities } from './functions.js';
-import schema from './schema.js';
 
 import SimpleTable from './Table';
+import { loadEntities } from './functions.js';
+import { sortProperties, convertNameToLink } from './utils.js';
 
 function Entities(props) {
   let title = props.title;
@@ -38,36 +36,6 @@ function Entities(props) {
 
     </div>
   );
-}
-
-
-// This orders the columns placing important ones at the front based on the schema
-// allows geneId/diseaseId/geneName/diseaseName to be the first two columns of the table
-function sortProperties(properties, entityType) {
-  var ordered = [].concat(properties)
-
-  schema.forEach((schema_def) => {
-    if (schema_def.entityType === entityType) {
-      schema_def.propertiesOfImportance.forEach((impProp) => {
-        var ind = ordered.indexOf(impProp)
-        ordered.splice(ind, 1)
-        ordered.unshift(impProp);
-      });    
-      }
-    });  
-
-  return ordered
-}
-
-function convertNameToLink(items, entityType) {
-  schema.forEach((schema_def) => {
-    if (schema_def.entityType === entityType) {
-      items.forEach((item) => {
-        item[schema_def.nameKey] = (<Link to={`/${entityType}/${ item[schema_def.nameKey]}`}>{ item[schema_def.nameKey]}</Link>)
-      })
-    }
-  })
-  return items
 }
 
 const Genes = () => (<Entities title="Genes" entityType="gene"/>)

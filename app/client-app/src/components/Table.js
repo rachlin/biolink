@@ -1,6 +1,5 @@
 // This file has been adapted from examples in: https://material-ui.com/components/tables/
 import React from 'react';
-import { Link } from "react-router-dom";
 
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';

@@ -1,42 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { Switch, Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
-import Gene from "./Gene";
-import { loadGeneInfo } from "./functions.js";
-import { stringify } from 'querystring';
+const useStyles = makeStyles(theme => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: 200,
+    },
+  },
+}));
 
 export default function Search() {
-    const [searchValue, setSearchValue] = useState("");
-    const [genes, setGenes] = useState([]);
-    const [diseases, setDiseases] = useState([]);
+  const classes = useStyles();
 
-    // useEffect(() => {
-    //     async function fetchData() {
-    //       const response = await loadGenes(page);
-    //       setGenes(genes.concat(response));
-    //       setGeneData(
-    //         gene_data.concat(
-    //           response.map((geneName) => (
-    //             {
-    //               geneName: geneName
-    //             }))));
-    //     }
-    //     fetchData();
-    //   }, [page]);
-    
-    
-
-    function redirect (record) {
-        console.log(record)
-        setSearchValue(record)
-        return <Gene />;
-    };
-
-    function filter(value) {   
-    }
-
-    return (
-        <div>Search here</div>
-        
-    )
+  return (
+    <div>
+        <form className={classes.root} noValidate autoComplete="off">
+        <TextField id="standard-basic" label="Standard" />
+        </form>
+        <div className={classes.root}>
+            <Button variant="contained">Search</Button>
+        </div>
+    </div>
+  );
 }
