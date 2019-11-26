@@ -16,9 +16,9 @@ export default function App() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="/about">About</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/gene">Genes</Link>
           </li>
@@ -28,9 +28,9 @@ export default function App() {
         </ul>
 
         <Switch>
-          <Route path="/about">
+          {/* <Route path="/about">
             <About />
-          </Route>
+          </Route> */}
           <Route path={`/gene/:geneName`}>
             <Gene />
           </Route>

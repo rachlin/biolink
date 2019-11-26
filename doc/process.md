@@ -373,3 +373,29 @@ Reaching out to some peers who were more familar with React, we learned about `u
 For this gene/disease specific view, we refactored where we left off last week, again leveraging `useState()` and `useEffect()` to fetch the information from the API asynchronously and re-render the component once the data was received. But clicking the links didn't take us to the route we actually wanted, and so we weren't able to see the information for a disease if we went to the gene first and vice versa. This was actually a minor issue that was a result of appending the desired URL to the current path every time. Once this was figured out, we worked to split up our components, so `App.js` wasn't cluttered.
 
 Next steps include actually incorporating the table view using `react-table`. There are live examples of what a table with sort by column might look like, but have yet to incorporate it into out client.
+
+
+### 11/19 - 11/26
+
+In the midst of all the refactoring, we never got the chance to implement sortable tables with Linking. 
+
+#### Tables
+
+We looked into 3rd party libraries to build sortable tables for the front end but unfortunately sorting wasn't quite working. In one instance, sorting worked, but it prevented us from creating links. We also realized that some back end work needed to be done to send over more than just entityName. We revisit this.
+
+#### Backend improvements, new Endpoint
+
+We changed the basic getEntities() method to send over all the details for each record. This way the front end will have enough information to render appropriately in tables.
+
+In addition we expose a new endpoint for Search. We realized that no matter how nice the tables looked, the best way to navigate the data would be to search. To support this, we allow users to query anything, and across all entities, if there are any properties that have a value matching this query, it will be returned. This is pretty powerful, and we let neo4j take care of doing this processing and simply return the results for each entity type.
+
+#### Front End: Tables, Entities
+
+Now that we're able to get the appropriate data we need for each entity, we can present it as a table. We began by using the material ui Table component to render the table, and simply pass rows and columns to that table. Once we got this working for rendering Genes, we realized there was a lot of redundant work being done for Diseases as well. So we refactored Genes/Diseases components into one Entities component, that renders the correct information given the proper entity type. The Genes and Diseases components became constants that simply call Entities. This same work can be done for Gene/Disease components. Material shell components allow us to format values as we wish, so we pass in the rows to the table in entities, but before we do so, we change the record (row) so that the entityName is now a link to the entity (so it can be clickable!). This worked!
+
+#### Front End: Search
+
+With tables working, we now looked to support the Search functionality. It would be helpful to see this tabular data pop up as a user types. We looked into Material UI components for input boxes and forms, and use the form submission text to be passed to our search end point. After querying the endpoint, we render tables for each entityType that has an item with values matching our search. Our search is actually pretty quick!
+
+
+To summarize, there was a lot of refactoring, which made our app more extensible, both on the front end and back end! And we now have search.
