@@ -41,6 +41,8 @@ function Entities(props) {
 }
 
 
+// This orders the columns placing important ones at the front based on the schema
+// allows geneId/diseaseId/geneName/diseaseName to be the first two columns of the table
 function sortProperties(properties, entityType) {
   var ordered = [].concat(properties)
 
