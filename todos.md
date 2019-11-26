@@ -2,22 +2,15 @@
 
 ### 11/26 - 12/2
 
-- [] - Write up a Paper
-- [] - Next Steps for Next Semester:
-
-		-Plot DSI vs DPI
-
-			- colorcoded by disease class
-			
-			- ClientSide - Graph Plotting (Plotly JS) - https://plot.ly/javascript/sankey-diagram/
-
-			- GO Annotations
-
-			- Explore old biolink data dump
-
-			- ETL Pipeline: https://neo4j.com/blog/rdbms-neo4j-etl-tool/
-
-			- Config file stuff
+- [] - Write up Paper
+- [] - Future Steps:
+	- Plot DSI vs DPI
+	- colorcoded by disease class
+	- ClientSide - Graph Plotting (Plotly JS) - https://plot.ly/javascript/sankey-diagram/
+	- GO Annotations
+	- Explore relational biolink data dump
+	- ETL Pipeline: https://neo4j.com/blog/rdbms-neo4j-etl-tool/
+	- Config file & build scripts to automate building of graph database (also look into )
 
 ### 11/19 - 11/26
 
