@@ -6,8 +6,8 @@ The goal of biolink is to create a multi-model database to support queries on bi
 ### Links
 
 - Check out the [API Documentation](./doc/api/endpoints.md) for how to use the API
-- Read the [Progress Report](./docs/Biolink.pdf) for a comprehensive review of the progess we've made so far, and our goals for next steps
-- See the [process documentation](./docs/process.md) for a less formal, more detailed account of the work we've done.
+- Read the [Progress Report](./doc/Biolink.pdf) for a comprehensive review of the progess we've made so far, and our goals for next steps
+- See the [process documentation](./doc/process.md) for a less formal, more detailed account of the work we've done.
 
 ### Installation & Setup (Coming Soon)
 We're working to make an easily configurable set up process, one that also helps with creating the neo4j database as well.
