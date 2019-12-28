@@ -1,39 +1,54 @@
 {
-    "ModelName" : "A",
-    "Nodes" : [
+    "modelName" : "A",
+    "nodes" : [
         {
-            "NodeType" : "Gene",
-            "Properties" : ["geneId", "geneName", "genePLI", "geneDSI", "geneDPI"],
-            "DataSource" : {
-                "DatabaseFile" : "disgenet_2018.db",
-                "QueryFile" : "export_gene.sql"
+            "entityType" : "Gene",
+            "entityIdKey" : "geneId",
+            "entityNameKey" : "geneName",
+            "properties" : [
+                "geneId",
+                "geneName",
+                "geneDPI",
+                "geneDSI",
+                "genePLI"
+            ],
+            "indices" : ["geneId", "geneName"],
+            "dataSource" : {
+                "dbFile" : "disgenet_2018.db",
+                "queryFile" : "export_gene.sql",
+                "dbType" : "sqllite3"
             }
         },
         {
-            "NodeType" : "Disease",
-            "Properties" : ["diseaseId", "diseaseName", "diseaseType"],
-            "DataSource" : {
-                "DatabaseFile" : "disgenet_2018.db",
-                "QueryFile" : "export_disease.sql"
-            }
-        },
-        {
-            "NodeType" : "Function",
-            "Properties" : ["diseaseId", "diseaseName", "diseaseType"],
-            "DataSource" : {
-                "DatabaseFile" : "goa_human.gaf",
-                "QueryFile" : ""
+            "entityType" : "Disease",
+            "entityIdKey" : "diseaseId",
+            "entityNameKey" : "diseaseName",
+            "properties" : [
+                "diseaseType"
+            ],
+            "indices": ["diseaseId", "diseaseName"],
+            "dataSource" : {
+                "dbFile" : "disgenet_2018.db",
+                "queryFile" : "export_disease.sql",
+                "dbType" : "sqllite3"
             }
         }
     ],
-    "Edges" : [
+    "edges" : [
         {
-            "EdgeType" : "AssociatedWith",
-            "FromNodeType" : "Gene",
-            "FromNodeTypeId" : "geneId",
-            "ToNodeType" : "Disease",
-            "ToNodeTypeId" : "diseaseId",
-            "Properties" : ["association", "associationType", "score"]
+            "edgeType": "AssociatesWith",
+            "fromNodeType" : "Gene",
+            "fromNodeKey" : "geneId",
+            "toNodeType" : "Disease",
+            "toNodeKey" : "dieaseId",
+            "properties" : [
+                "score"
+            ],
+            "dataSource" : {
+                "dbFile" : "disgenet_2018.db",
+                "queryFile" : "export_association.sql",
+                "dbType" : "sqllite3"
+            }
         }
     ]
 }
