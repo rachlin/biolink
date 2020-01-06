@@ -32,7 +32,7 @@ def build():
 
             print("Exporting " + node["entityType"] + " info (i.e. " + str(node["properties"]) + ") from " + node["dataSource"]["dbFile"] + " into CSV file...")
             export_db_csv(db_type, db_file_path, query_file_path, csv_file_path)
-
+ 
             print("Loading CSV details for " + node["entityType"] + " into Neo4j...")
             load_db(node, csv_file_path)
 
@@ -40,12 +40,12 @@ def build():
             db_type = edge["dataSource"]["dbType"]
             db_file_path = os.path.join(db_dir_path, edge["dataSource"]["dbFile"])
             query_file_path = os.path.join(query_dir_path, edge["dataSource"]["queryFile"])
-            csv_file_path = os.path.join(csv_dir_path, edge["nodeType"] + ".csv")
+            csv_file_path = os.path.join(csv_dir_path, edge["entityType"] + ".csv")
 
-            print("Exporting " + edge["edgeType"] + " info (i.e. " + str(edge["properties"]) + ") from " + edge["dataSource"]["dbFile"] + " into CSV file...")
+            print("Exporting " + edge["entityType"] + " info (i.e. " + str(edge["properties"]) + ") from " + edge["dataSource"]["dbFile"] + " into CSV file...")
             export_db_csv(db_type, db_file_path, query_file_path, csv_file_path)
 
-            print("Loading CSV details for " + edge["edgeType"] + " into Neo4j...")
+            print("Loading CSV details for " + edge["entityType"] + " into Neo4j...")
             load_db(edge, csv_file_path, isNode=False)
             
 
@@ -66,13 +66,19 @@ def export_db_csv(db_type, db_path, query_file_path, csv_file_path):
 
 def load_db(entity, csv_file_path, isNode=True):
     if isNode:
-        query = "USING PERIODIC COMMIT LOAD CSV WITH HEADERS FROM \"file:" + csv_file_path + "\" AS row "
-        prop_dict = {}
+        query = "USING PERIODIC COMMIT LOAD CSV WITH HEADERS FROM \"file://" + csv_file_path + "\" AS row "
+        node_properties = entity["properties"]
+        prop_string = " {"
 
-        for prop in entity["properties"]:
-            prop_dict[prop] = "row." + prop
+        for idx, prop in enumerate(node_properties):
+            prop_string += prop + ": row." + prop
+            if idx < len(node_properties) - 1:
+                prop_string += ", "
+            else:
+                prop_string += "}"
 
-        query += "CREATE (:" + entity["entityType"] + str(prop_dict) + ");"
+
+        query += "CREATE (:" + entity["entityType"] + prop_string + ");"
         run_query(query)
 
         for index in entity["indices"]:
@@ -80,19 +86,19 @@ def load_db(entity, csv_file_path, isNode=True):
             run_query(query)
 
     else:
-        query = "USING PERIODIC COMMIT LOAD CSV WITH HEADERS FROM \"file:" + csv_file_path + "\" AS row "
-        query += "MATCH (from:" + entity["fromNodeType"] + "{ " + entity["fromNodeKey"] + ": row." + entity["fromNodeKey"] +  "}) "
-        query += "MATCH (to:" + entity["toNodeType"] + "{ " + entity["toNodeKey"] + ": row." + entity["toNodeKey"] + "}) "
+        query = "USING PERIODIC COMMIT LOAD CSV WITH HEADERS FROM \"file://" + csv_file_path + "\" AS row "
+        query += "MATCH (from:" + entity["fromNodeType"] + " {" + entity["fromNodeKey"] + ": row." + entity["fromNodeKey"] +  "}) "
+        query += "MATCH (to:" + entity["toNodeType"] + " {" + entity["toNodeKey"] + ": row." + entity["toNodeKey"] + "}) "
 
-        query += "MERGE (from)-[e:" + entity["edgeType"] + "]->(to) "
+        query += "MERGE (from)-[e:" + entity["entityType"] + "]->(to) "
 
-        query += "ON CREATE SET "
+        query += "ON CREATE SET"
 
         for prop in entity["properties"]:
             if is_numeric(prop):
-                query += "e." + prop + " = toFloat(row." + prop + ") "
+                query += " e." + prop + " = toFloat(row." + prop + ")"
             else:
-                query += "e." + prop + " = row." + prop + " "
+                query += " e." + prop + " = row." + prop
         
         query += ";"
         run_query(query)
@@ -106,12 +112,15 @@ def run_query(query_string):
     from neo4j import GraphDatabase
     driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "admin"))
 
+    print(query_string)
+
     with driver.session() as session:
-        results = session.write_transaction(
-            call_tx, query_string
-        )
-        driver.close()
-        return results
+        # results = session.write_transaction(
+        #     call_tx, query_string
+        # )
+        # driver.close()
+        # return results
+        session.run(query_string)
 
 
 def call_tx(tx, query_string):
@@ -130,7 +139,7 @@ def delete():
 
 
         for edge in edges:
-            query = "MATCH (:" + edge["fromNodeType"] + ")-[e:" + edge["edgeType"] +"]->(:"+edge["toNodeType"]+") DELETE e;"
+            query = "MATCH (:" + edge["fromNodeType"] + ")-[e:" + edge["entityType"] +"]->(:"+edge["toNodeType"]+") DELETE e;"
             run_query(query)
 
         for node in nodes:

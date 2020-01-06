@@ -24,6 +24,8 @@
             "entityIdKey" : "diseaseId",
             "entityNameKey" : "diseaseName",
             "properties" : [
+                "diseaseId",
+                "diseaseName",
                 "diseaseType"
             ],
             "indices": ["diseaseId", "diseaseName"],
@@ -36,11 +38,11 @@
     ],
     "edges" : [
         {
-            "edgeType": "AssociatesWith",
+            "entityType": "AssociatesWith",
             "fromNodeType" : "Gene",
             "fromNodeKey" : "geneId",
             "toNodeType" : "Disease",
-            "toNodeKey" : "dieaseId",
+            "toNodeKey" : "diseaseId",
             "properties" : [
                 "score"
             ],
