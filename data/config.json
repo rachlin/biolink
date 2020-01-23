@@ -1,0 +1,39 @@
+{
+    "ModelName" : "A",
+    "Nodes" : [
+        {
+            "NodeType" : "Gene",
+            "Properties" : ["geneId", "geneName", "genePLI", "geneDSI", "geneDPI"],
+            "DataSource" : {
+                "DatabaseFile" : "disgenet_2018.db",
+                "QueryFile" : "export_gene.sql"
+            }
+        },
+        {
+            "NodeType" : "Disease",
+            "Properties" : ["diseaseId", "diseaseName", "diseaseType"],
+            "DataSource" : {
+                "DatabaseFile" : "disgenet_2018.db",
+                "QueryFile" : "export_disease.sql"
+            }
+        },
+        {
+            "NodeType" : "Function",
+            "Properties" : ["diseaseId", "diseaseName", "diseaseType"],
+            "DataSource" : {
+                "DatabaseFile" : "goa_human.gaf",
+                "QueryFile" : ""
+            }
+        }
+    ],
+    "Edges" : [
+        {
+            "EdgeType" : "AssociatedWith",
+            "FromNodeType" : "Gene",
+            "FromNodeTypeId" : "geneId",
+            "ToNodeType" : "Disease",
+            "ToNodeTypeId" : "diseaseId",
+            "Properties" : ["association", "associationType", "score"]
+        }
+    ]
+}
