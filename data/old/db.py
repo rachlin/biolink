@@ -1,3 +1,5 @@
+#  Antiquated - precursor to autoneo tool, which was exported to its own PyPI package
+
 import os
 import os.path
 import json
