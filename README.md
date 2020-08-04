@@ -19,22 +19,14 @@ We're working to make an easily configurable set up process, one that also helps
 - Start Neo4J
 
         $ git clone https://github.com/rachlin/biolink
-        $ cd biolink
-        $ git checkout dev-p2p
-        $ ./setup.sh
-        $ cd data
-        ------
-        $ conda create --name biolink_data_tool python=3.7.0
-        $ conda activate biolink_data_tool
-        ------
-        $ python db.py
+        $ cd biolink/data
+        # Install dependencies listed in requirements.txt (I do: `pip install -r requirements.txt`)
+        $ python build_graph.py
     
 
 #### Setting up the back end
 
         $ cd biolink/app/api
-        $ conda create --name biolink python=3.7.0
-        $ conda activate biolink
         $ pip install -r requirements.txt
 
 
