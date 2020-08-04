@@ -16,6 +16,7 @@
             "dataSource" : {
                 "dbFile" : "disgenet_2018.db",
                 "queryFile" : "export_gene.sql",
+                "csvFile" : "gene.csv",
                 "dbType" : "sqllite3"
             }
         },
@@ -32,6 +33,7 @@
             "dataSource" : {
                 "dbFile" : "disgenet_2018.db",
                 "queryFile" : "export_disease.sql",
+                "csvFile" : "disease.csv",
                 "dbType" : "sqllite3"
             }
         }
@@ -46,9 +48,11 @@
             "properties" : [
                 "score"
             ],
+            "numeric" : ["score"],
             "dataSource" : {
                 "dbFile" : "disgenet_2018.db",
                 "queryFile" : "export_association.sql",
+                "csvFile" : "gene_associateswith_disease.csv",
                 "dbType" : "sqllite3"
             }
         }
