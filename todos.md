@@ -2,7 +2,7 @@
 
 ### 7/28 - 8/3
 
-- [ ] - Export data import tool to its own repo. It's its own project, and other people can use it now too.
+- [x] - Export data import tool to its own repo. It's its own project, and other people can use it now too.
 	- Done: New project, autoneo. Also created a PyPI package for it.
 - [ ] - Refactor data loading to use the external data import tool, remove obsolete files related to it.
 
