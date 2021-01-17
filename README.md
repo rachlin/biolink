@@ -13,4 +13,29 @@ The goal of biolink is to create a multi-model database to support queries on bi
 We're working to make an easily configurable set up process, one that also helps with creating the neo4j database as well.
 
 
+#### Setting up the Database
+
+- Setup Neo4j (set up your user credentials)
+- Start Neo4J
+
+        $ git clone https://github.com/rachlin/biolink
+        $ cd biolink/data
+        # Install dependencies listed in requirements.txt (I do: `pip install -r requirements.txt`)
+        $ python build_graph.py
+    
+
+#### Setting up the back end
+
+        $ cd biolink/app/api
+        $ pip install -r requirements.txt
+
+
+#### Setting up the front end
+
+        $ cd biolink/app/client-app
+        $ nvm use 12.13.1
+        $ npm install
+        $ npm start?
+
+
 Current stack: Neo4J, Python (Flask), ReactJS

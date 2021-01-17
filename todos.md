@@ -1,18 +1,27 @@
 # Task tracking
 
-### 11/26 - 12/2
+## Todos:
+- Add GO Annotations to Graph
+- Integrate work done by PPI group and Compound_Bioassay group
+- Improve autoneo (more robust data options)
+- 
 
-- [ ] - Write up Paper
+### 7/28/20 - 8/3/20
+
+- [x] - Export data import tool to its own repo. It's its own project, and other people can use it now too.
+	- Done: New project, autoneo. Also created a PyPI package for it.
+- [x] - Refactor data loading to use the external data import tool, remove obsolete files related to it.
+- [x] - Move setup.sh into data dir. It's relevant for doing database setup, and not much else.
+
+### 12/20/19- 1/30/20
+
+### 11/26/19 - 12/2/19
+
+- [x] - Write up Paper
 - [ ] - Future Steps:
-	- Plot DSI vs DPI
-	- colorcoded by disease class
-	- ClientSide - Graph Plotting (Plotly JS) - https://plot.ly/javascript/sankey-diagram/
-	- GO Annotations
-	- Explore relational biolink data dump
-	- ETL Pipeline: https://neo4j.com/blog/rdbms-neo4j-etl-tool/
-	- Config file & build scripts to automate building of graph database (also look into )
+	- Plot DSI vs DPI, colorcoded by disease class, ClientSide - Graph Plotting (Plotly JS) - https://plot.ly/javascript/sankey-diagram/, Explore relational biolink data dump
 
-### 11/19 - 11/26
+### 11/19/19 - 11/26/19
 
 - [x] - Client-side Table View
 	- See resources: `https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/sorting`
@@ -30,7 +39,7 @@
 	- Revisit: See process docs for details
 
 
-### 11/14 - 11/19
+### 11/14/19 - 11/19/19
 
 Being a bit ambitious with this week's tasks (may not get to many of these, but this is where I want to see growth in the project, to streamline how easy it is to add to the graph. Also want to look into how I can leverage our own API to add data to the database, so we may not need to wipe and rebuild everytime from scratch.)
  - [x] - Continue to work on Site/App - rendering explorative experience
@@ -60,7 +69,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 
 
 
-### 11/5 - 11/14
+### 11/5/19 - 11/14/19
 
 - [x] - Continue to work on Site/App - rendering explorative experience
 	- Views for Gene/Disease
@@ -72,7 +81,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 - [ ] - Explore NCBI FTP Site Data (ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.ncbi.nlm.nih.gov/gene/GeneRIF/)
 	- Easier way to get GO Annotations: Gene info, gene2go, gene2pubmed, gene_neighbors (might be interesting)
 
-### 10/29 - 11/5
+### 10/29/19 - 11/5/19
 
 - [x] - Interactive tools for exploring relations between genes and diseaes - this is a priority
 	- For gene g:
@@ -103,7 +112,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 	 - REVISIT FOR Next week
 
 
-### 10/22 - 10/29
+### 10/22/19 - 10/29/19
 
 - [x] - Exploring the data:
 	
@@ -136,7 +145,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 
 
 
-### 10/15 - 10/22
+### 10/15/19 - 10/22/19
 - [x] - Show plot of EL vs. EI
 
 	- See [here](./doc/process.md#gene-disease-association---evidence-level-and-evidence-index)
@@ -168,7 +177,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 	- see [here](./doc/paper.md)
 
 
-### 10/8 - 10/15
+### 10/8/19 - 10/15/19
 
 - [x] See if I can manually create a neo4j instance(s) (via a script following a pattern specified in the email I received)
 	- Next step: 
@@ -184,7 +193,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 	- Will show next week
 
 
-### 10/1 - 10/7
+### 10/1/19 - 10/7/19
 
 - [x] Data familiarity - become more familiar with the attributes of the data
 
@@ -221,7 +230,7 @@ Being a bit ambitious with this week's tasks (may not get to many of these, but 
 
 		- made `process.md`
 
-### 9/24 - 9/30
+### 9/24/19 - 9/30/19
 
 - [x] Create Github todo doc for tracking progress
 
